@@ -17,13 +17,13 @@ provider:
 
 functions:
   webhook:
-    handler: dist/src/functions/hook.handler
+    handler: dist/src/hook/index.handler
     events:
       - httpApi:
           path: /hook
           method: post
   survey_responses:
-    handler: dist/src/functions/responses.handler
+    handler: dist/src/responses/index.handler
     events:
       - httpApi:
           path: /responses
