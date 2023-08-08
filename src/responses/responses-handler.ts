@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { readerDb } from "../../data/knex";
-import { ExtendedApiGateWayEvent } from "../types";
+import { ExtendedApiGateWayEvent } from "../shared/types";
 
 export const surveyResponseHandler = async ({
   parsedQueryParams: { generatedId },

@@ -4,12 +4,11 @@ import httpEventNormalizer from "@middy/http-event-normalizer";
 import errorLogger from "@middy/error-logger";
 import httpSecurityHeaders from "@middy/http-security-headers";
 
-import {
-  surveyResponseHandler,
-  validateRequestBody,
-} from "../survey-responses";
+import { surveyHookHandler, validateRequestBody } from "../hook";
+import { parseJsonBody } from "../shared/utilities/middlewares";
 
-export const handler = middy(surveyResponseHandler)
+export const handler = middy(surveyHookHandler)
+  .before(parseJsonBody())
   .before(validateRequestBody())
   .use(httpEventNormalizer())
   .use(errorLogger())

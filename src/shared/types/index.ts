@@ -1,7 +1,7 @@
 import middy from "@middy/core";
 import { APIGatewayEvent } from "aws-lambda";
-import { SurveyHookRequestBody } from "../survey-hook/schema";
-import { SurveyResponsesRequestBody } from "../survey-responses/schema";
+import { SurveyHookRequestBody } from "../../hook/schema";
+import { SurveyResponsesRequestBody } from "../../responses/schema";
 
 // omit body
 

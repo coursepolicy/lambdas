@@ -1,5 +1,5 @@
 import middy from "@middy/core";
-import { MiddlewareRequest } from "../types";
+import { MiddlewareRequest } from "../../shared/types";
 
 export const parseJsonBody =
   (): middy.MiddlewareFn => (request: MiddlewareRequest) => {
