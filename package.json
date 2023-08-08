@@ -1,0 +1,46 @@
+{
+  "name": "lambdas",
+  "version": "1.0.0",
+  "description": "Lambdas belonging to course-policy-ai",
+  "main": "index.js",
+  "author": "cjtantay",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "tsc --build --verbose",
+    "invoke:hook": "yarn build && sls invoke local -f webhook",
+    "deploy:hook": "yarn build && sls deploy -f webhook",
+    "debug:hook": "yarn deploy:hook && sls dev -f webhook --verbose",
+    "invoke:responses": "yarn build && sls invoke local -f survey_responses",
+    "deploy:responses": "yarn build && sls deploy -f survey_responses",
+    "debug:responses": "yarn deploy:hook && sls dev -f survey_responses --verbose",
+    "offline": "yarn build && sls offline",
+    "watch": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/handlers/survey-hooks.ts"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.119",
+    "@types/node": "^20.4.8",
+    "@types/node-fetch": "^2.6.4",
+    "@typescript-eslint/eslint-plugin": "^6.3.0",
+    "@typescript-eslint/parser": "^6.3.0",
+    "eslint": "^8.46.0",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.1",
+    "serverless": "^3.34.0",
+    "serverless-offline": "^12.0.4",
+    "ts-node": "^10.9.1",
+    "tsconfig": "^7.0.0",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "@middy/core": "^4.5.5",
+    "@middy/error-logger": "^4.5.5",
+    "@middy/http-error-handler": "^4.5.5",
+    "@middy/http-event-normalizer": "^4.5.5",
+    "@middy/http-security-headers": "^4.5.5",
+    "dotenv": "^16.3.1",
+    "knex": "^2.5.1",
+    "pg": "^8.11.2",
+    "zod": "^3.21.4"
+  }
+}

@@ -1,0 +1,30 @@
+app: course-policy-ai
+plugins:
+  - serverless-offline
+
+org: coursepolicy
+service: core
+frameworkVersion: "3"
+
+custom:
+  defaultStage: staging
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-west-2
+  stage: ${opt:stage, self:custom.defaultStage}
+
+functions:
+  webhook:
+    handler: dist/src/functions/survey-hook.handler
+    events:
+      - httpApi:
+          path: /hook
+          method: post
+  survey_responses:
+    handler: dist/src/functions/survey-responses.handler
+    events:
+      - httpApi:
+          path: /responses
+          method: get
