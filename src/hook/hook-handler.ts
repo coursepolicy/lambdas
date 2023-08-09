@@ -1,9 +1,10 @@
 import "dotenv/config";
 
-import { db, readerDb } from "../../data/knex";
+import { db } from "../../data/knex";
 import { ExtendedApiGateWayEvent } from "../shared/types";
 import { baseUrl } from "../shared/utilities/constants";
 import { saveSurveyResponse } from "./helpers";
+import { get } from "lodash";
 
 const { SURVEY_ID, QUALTRICS_API_TOKEN } = process.env;
 
@@ -25,10 +26,10 @@ export const surveyHookHandler = async ({
     throw new Error("Qualtrics API call failed");
   }
   const data = await response.json();
+  const id = get(data, "result.values.QID13_TEXT");
 
   if (saveDb === false) {
-    const uuid = data.result.values.QID13_TEXT;
-    const queriedResponse = await readerDb("survey_responses").where({ uuid });
+    const queriedResponse = await db("survey_responses").where({ id });
 
     return {
       statusCode: 200,
@@ -39,6 +40,6 @@ export const surveyHookHandler = async ({
 
   return {
     statusCode: 200,
-    body: JSON.stringify({ message: "DB Insert Success" }),
+    body: JSON.stringify({ message: "DB Insert Success", generatedId: id }),
   };
 };

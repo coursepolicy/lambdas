@@ -1,10 +1,11 @@
 import { Knex } from "knex";
+import { get } from "lodash";
 
 export const saveSurveyResponse = (data: any, db: Knex) => {
-  const uuid = data.result.values.QID13_TEXT;
+  const id = get(data, "result.values.QID13_TEXT");
 
   return db("survey_responses").insert({
-    uuid,
-    survey_results: JSON.stringify(data.result),
+    id,
+    results: JSON.stringify(data.result),
   });
 };
