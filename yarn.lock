@@ -1722,6 +1722,22 @@ aws-sdk@^2.1404.0:
     uuid "8.0.0"
     xml2js "0.5.0"
 
+aws-sdk@^2.1440.0:
+  version "2.1440.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1440.0.tgz#ae32dd90f0ddc5ff0facda087c65956ee8d94fe3"
+  integrity sha512-ijHaRFZIKLYUDqOGTNrwncXF5vzJPU6VJpbRr7eNBAvo+nFtEHY4BZkldWYuhELCbWz0U5/+qMtF2T/JgPjfWQ==
+  dependencies:
+    buffer "4.9.2"
+    events "1.1.1"
+    ieee754 "1.1.13"
+    jmespath "0.16.0"
+    querystring "0.2.0"
+    sax "1.2.1"
+    url "0.10.3"
+    util "^0.12.4"
+    uuid "8.0.0"
+    xml2js "0.5.0"
+
 axios@^0.21.1:
   version "0.21.4"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"

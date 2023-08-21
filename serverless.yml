@@ -4,7 +4,7 @@ plugins:
 
 org: coursepolicy
 service: core
-frameworkVersion: "3"
+frameworkVersion: '3'
 
 custom:
   defaultStage: staging
@@ -14,17 +14,21 @@ provider:
   runtime: nodejs18.x
   region: us-west-2
   stage: ${opt:stage, self:custom.defaultStage}
+  websocketsApiName: survey-response-api
+  websocketsApiRouteSelectionExpression: $request.body.action
+  websocketsDescription: Course Policy AI Survey Response Websockets
 
 functions:
   webhook:
-    handler: dist/src/hook/index.handler
+    handler: dist/src/http/hook/index.handler
     events:
       - httpApi:
           path: /hook
           method: post
-  survey_responses:
-    handler: dist/src/responses/index.handler
+  response:
+    handler: dist/src/http/responses/index.handler
     events:
       - httpApi:
           path: /responses
           method: get
+    timeout: 30
