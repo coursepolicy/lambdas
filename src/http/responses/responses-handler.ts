@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { ExtendedApiGateWayEvent } from './types';
-import { longPolling } from './helpers';
+import { longPolling } from './long-polling';
 
 export const responsesHandler = async ({
   queryStringParameters: { generatedId },
