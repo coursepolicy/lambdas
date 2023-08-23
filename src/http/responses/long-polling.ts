@@ -1,6 +1,5 @@
 import { isEmpty } from 'lodash';
 import { db } from '../../../data/knex';
-import { surveyResponseMapper } from './survey-response-mapper';
 
 const MAX_TIME_ALOTTED = 15_000;
 const TIME_TO_WAIT = 1_000;
@@ -16,11 +15,7 @@ export const longPolling = async (generatedId: string) => {
     const found = !isEmpty(data);
 
     if (found) {
-      const mappedData = surveyResponseMapper(data);
-      return {
-        statusCode: 200,
-        body: JSON.stringify({ data: mappedData }),
-      };
+      return data;
     }
 
     if (Date.now() - startTime > MAX_TIME_ALOTTED) {

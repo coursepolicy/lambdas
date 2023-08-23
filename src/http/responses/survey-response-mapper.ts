@@ -69,10 +69,10 @@ const formatUseCases = ({
   return useCases;
 };
 
-export const surveyResponseMapper = (
-  surveyResponse: ResponseObject
-): GenerativeAiPolicy => {
-  const { values, labels } = surveyResponse;
+export const surveyResponseMapper = ({
+  values,
+  labels,
+}: ResponseObject): GenerativeAiPolicy => {
   const {
     QID15,
     QID25_6_TEXT: additionalGuidelines,
