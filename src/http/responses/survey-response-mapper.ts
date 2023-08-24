@@ -21,7 +21,7 @@ const formatUseCases = ({
   let useCases;
 
   if (QID16_DO) {
-    const useCases = QID16_DO.reduce(
+    useCases = QID16_DO.reduce(
       (acc: UseCases, item: string, index: number) => {
         let [label, text] = item.split(':');
         label = toTitleCase(label);
@@ -109,6 +109,8 @@ export const surveyResponseMapper = ({
     additionalNotes: QID30_TEXT,
     generatedAt: endDate,
   };
+
+  // save button -> uuid or link sent to email
 
   if (generativeAiPolicyMapper[QID15] === 'No restrictions') {
     return {
