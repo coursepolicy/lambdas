@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { format, parse } from 'date-fns';
+import { format } from 'date-fns';
 import { toTitleCase } from './helpers';
 import {
   CourseAiPolicy,
@@ -120,8 +120,7 @@ export const surveyResponseMapper = ({
   if (generativeAiPolicyMapper[QID15] === 'No restrictions') {
     return {
       ...base,
-      overallPolicyText:
-        `This course imposes no restrictions on the use of generative AI, recognizing each student's unique learning methods. This flexibility empowers you to tailor your educational journey to your needs. However, while exploring these technological options, adherence to the department or school's academic integrity policies is essential. This ensures that while maximizing your learning potential, you also uphold our community's high standards of academic ethics.`.trim(),
+      overallPolicyText: `This course imposes no restrictions on the use of generative AI, recognizing each student's unique learning methods. This flexibility empowers you to tailor your educational journey to your needs. However, while exploring these technological options, adherence to the department or school's academic integrity policies is essential. This ensures that while maximizing your learning potential, you also uphold our community's high standards of academic ethics.`,
       additionalPolicyText:
         "This policy document aims to provide clarity and transparency for the use of generative AI in our course. However, it's paramount to remember that students are also expected to adhere to all other policies specified in the course syllabus and those established by the school administration.",
     };
@@ -133,8 +132,7 @@ export const surveyResponseMapper = ({
       departmentWidePolicy: values.QID12_2,
       academicIntegrityPolicy: values.QID12_3,
       otherPolicies: values.QID12_4,
-      overallPolicyText:
-        `We recognize the potential benefits of incorporating generative AI in the learning process. As such, we embrace the use of generative AI tools by our students. In this policy, we employ a "reasonable/not reasonable" system rather than a strict "allowed/not allowed" one (inspired by CS50 at Harvard). This approach fosters proactive thinking among students by encouraging them to understand context, evaluate implications, and make thoughtful decisions. `.trim(),
+      overallPolicyText: `We recognize the potential benefits of incorporating generative AI in the learning process. As such, we embrace the use of generative AI tools by our students. In this policy, we employ a "reasonable/not reasonable" system rather than a strict "allowed/not allowed" one (inspired by CS50 at Harvard). This approach fosters proactive thinking among students by encouraging them to understand context, evaluate implications, and make thoughtful decisions. `,
       additionalPolicyText:
         "This policy document aims to provide clarity and transparency for the use of generative AI in our course. However, it's paramount to remember that students are also expected to adhere to all other policies specified in the course syllabus and those established by the school administration. The following represents a non-exhaustive list of institution-wide policies which all students must observe, some of which may touch on the use of generative AI. These policies are subject to modification at any point in time. It's incumbent upon the students to keep themselves updated and well-informed about these policies.",
     };
@@ -144,8 +142,7 @@ export const surveyResponseMapper = ({
       ...base,
       campusWidePolicy: values.QID12_1,
       academicIntegrityPolicy: values.QID12_3,
-      overallPolicyText:
-        `The use of generative AI is strictly prohibited in this course to optimize students' learning outcomes. This policy is instituted to inspire comprehensive engagement with the course content and foster a deep understanding of the subject matter. It provides an avenue for students to articulate their ideas, form personal connections with the material, and bolster their academic development.`.trim(),
+      overallPolicyText: `The use of generative AI is strictly prohibited in this course to optimize students' learning outcomes. This policy is instituted to inspire comprehensive engagement with the course content and foster a deep understanding of the subject matter. It provides an avenue for students to articulate their ideas, form personal connections with the material, and bolster their academic development.`,
       additionalPolicyText:
         "This policy document aims to provide clarity and transparency for the use of generative AI in our course. However, it's paramount to remember that students are also expected to adhere to all other policies specified in the course syllabus and those established by the school administration. The following represents a non-exhaustive list of institution-wide policies which all students must observe, some of which may touch on the use of generative AI. These policies are subject to modification at any point in time. It's incumbent upon the students to keep themselves updated and well-informed about these policies. ",
     };
@@ -165,11 +162,11 @@ export const createCourseAiPolicyOutline = (
     id: uuidv4(),
     subSectionTitle: 'Introduction',
     content: `
-    <section>
+    <section class="course-description-introduction-section">
       <h3>Course Description</h3>
       <p>${response.courseDescription}</p>
     </section>
-    `.trim(),
+    `,
   });
   // end of courseDescriptionSubSections
 
@@ -178,18 +175,13 @@ export const createCourseAiPolicyOutline = (
   generativeAiPolicySubSections.push({
     id: uuidv4(),
     subSectionTitle: 'Introduction',
+    miscData: { overallPolicy: response.overallPolicy },
     content: `
-      <section>
-        <div className="flex justify-between">
-          <h3>1. ${response.courseNumber} Generative AI Policy</h3>
-          <p>
-            Overall generative AI policy:
-            <span>${response.overallPolicy}</span>
-          </p>
-        </div>
+      <section class="policy-introduction-section">
+        <h2>1. ${response.courseNumber} Generative AI Policy</h2>
         <p>${response.overallPolicyText}</p>
       </section>
-    `.trim(),
+    `,
   });
 
   if (response.useCases) {
@@ -197,43 +189,51 @@ export const createCourseAiPolicyOutline = (
       id: uuidv4(),
       subSectionTitle: 'Use Cases',
       content: `
-        <section className="flex justify-between">
-            <div className="">
+        <section class="policy-use-cases-section">
+            <div>
               <h3>Reasonable Use Cases</h3>
+              ${
+                response.useCases.reasonable.length
+                  ? `
               <ul>
-                ${
-                  response.useCases.reasonable
-                    ? response.useCases.reasonable.map(
-                        (entry) => `
-                      <li>
-                        <strong>${entry.label}</strong>
-                        <p>${entry.text}</p>
-                      </li>
-                  `
-                      )
-                    : `<p>None</p>`
-                }
+                ${response.useCases.reasonable.reduce(
+                  (acc, entry) =>
+                    (acc += `
+                  <li>
+                    <strong>${entry.label}</strong>
+                    <p>${entry.text}</p>
+                  </li>
+                `),
+                  ''
+                )}
               </ul>
+              `
+                  : '<p>None</p>'
+              }
             </div>
             <div>
               <h3>Unreasonable Use Cases</h3>
+              ${
+                response.useCases.unreasonable.length
+                  ? `
               <ul>
-                ${
-                  response.useCases.unreasonable.length
-                    ? response.useCases.unreasonable.map(
-                        (entry) => `
-                      <li>
+                ${response.useCases.unreasonable.reduce(
+                  (acc, entry) =>
+                    (acc += `
+                <li>
                         <strong>${entry.label}</strong>
                         <p>${entry.text}</p>
                       </li>
-                  `
-                      )
-                    : `<p>None</p>`
-                }
+                `),
+                  ''
+                )}
               </ul>
+              `
+                  : '<p>None</p>'
+              }
             </div>
           </section>
-      `.trim(),
+      `,
     });
   }
 
@@ -242,24 +242,11 @@ export const createCourseAiPolicyOutline = (
       id: uuidv4(),
       subSectionTitle: 'Assignment Specific AI Policies',
       content: `
-        <section>
+        <section class="policy-assignment-specific-section">
           <h3>Assignment/Project Specific AI Policies</h3>
           <p>${response.specificPoliciesForAssignments}</p>
         </section>
-      `.trim(),
-    });
-  }
-
-  if (response.specificPoliciesForAssignments) {
-    generativeAiPolicySubSections.push({
-      id: uuidv4(),
-      subSectionTitle: 'Asignment Specific AI Policies',
-      content: `
-        <section>
-          <h3>Assignment/Project Specific AI Policies</h3>
-          <p>${response.specificPoliciesForAssignments}</p>
-        </section>
-      `.trim(),
+      `,
     });
   }
 
@@ -268,15 +255,19 @@ export const createCourseAiPolicyOutline = (
       id: uuidv4(),
       subSectionTitle: 'Ethical Guidelines',
       content: `
-      <section>
+      <section class="policy-ehtical-guidelines-section">
         <h3>Ethical guidelines for using generative AI for this course:</h3>
-        ${response.ethicalGuidelines.map((text) => `<p>${text}</p>`)}
+        ${response.ethicalGuidelines.reduce(
+          (acc, text) => (acc += `<p>${text}</p>`),
+          ''
+        )}
         ${
-          response.additionalGuidelines &&
-          `<p>${response.additionalGuidelines}</p>`
+          response.additionalGuidelines
+            ? `<p>${response.additionalGuidelines}</p>`
+            : ''
         }
       </section>
-      `.trim(),
+      `,
     });
   }
 
@@ -285,17 +276,19 @@ export const createCourseAiPolicyOutline = (
       id: uuidv4(),
       subSectionTitle: 'Declaration',
       content: `
-        <section>
+        <section class="policy-declaration-section">
           <h3>How to declare the use of generative tools:</h3>
-          ${response.generativeAiToolDeclarations.map(
-            (text) => `<p>${text}</p>`
+          ${response.generativeAiToolDeclarations.reduce(
+            (acc, text) => (acc += `<p>${text}</p>`),
+            ''
           )}
           ${
-            response.additionalGenerativeAiToolsDeclarations &&
-            `<p>${response.additionalGenerativeAiToolsDeclarations}</p>`
+            response.additionalGenerativeAiToolsDeclarations
+              ? `<p>${response.additionalGenerativeAiToolsDeclarations}</p>`
+              : ''
           }
         </section>
-      `.trim(),
+      `,
     });
   }
 
@@ -303,11 +296,11 @@ export const createCourseAiPolicyOutline = (
     id: uuidv4(),
     subSectionTitle: 'Additional Notes',
     content: `
-     <section>
+     <section class="policy-notes-section">
         <h3>Additional Notes</h3>
-        ${response.additionalNotes && `<p>${response.additionalNotes}</p>`}
+        ${response.additionalNotes ? `<p>${response.additionalNotes}</p>` : ''}
       </section>
-    `.trim(),
+    `,
   });
 
   // end of generativeAiPolicySubSections
@@ -317,11 +310,11 @@ export const createCourseAiPolicyOutline = (
     id: uuidv4(),
     subSectionTitle: 'Introduction',
     content: `
-      <section>
+      <section class="additional-policies-introduction-section">
         <h2>2. Additional Policies</h2>
         <p>${response.additionalPolicyText}</p>
       </section>
-    `.trim(),
+    `,
   });
 
   if (response.overallPolicy !== 'No restrictions') {
@@ -329,13 +322,13 @@ export const createCourseAiPolicyOutline = (
       id: uuidv4(),
       subSectionTitle: 'Policy Links',
       content: `
-        <section>
+        <section class="additional-policies-policy-links-section">
             <ul>
               ${
-                response.campusWidePolicy &&
-                `
+                response.campusWidePolicy
+                  ? `
                 <li>
-                  Campus-wide generative AI policy:{" "}
+                  Campus-wide generative AI policy:
                   <span>
                     ${
                       response.campusWidePolicy.length
@@ -345,12 +338,13 @@ export const createCourseAiPolicyOutline = (
                   </span>
                 </li>
               `
+                  : ''
               }
               ${
-                response.departmentWidePolicy &&
-                `
+                response.departmentWidePolicy
+                  ? `
                 <li>
-                  Department-wide generative AI policy:{" "}
+                  Department-wide generative AI policy:
                   <span>
                     ${
                       response.departmentWidePolicy.length
@@ -360,12 +354,13 @@ export const createCourseAiPolicyOutline = (
                   </span>
                 </li>
               `
+                  : ''
               }
               ${
-                response.academicIntegrityPolicy &&
-                `
+                response.academicIntegrityPolicy
+                  ? `
                 <li>
-                  Academic Integrity policy:{" "}
+                  Academic Integrity policy:
                   <span>
                     ${
                       response.academicIntegrityPolicy.length
@@ -375,12 +370,13 @@ export const createCourseAiPolicyOutline = (
                   </span>
                 </li>
               `
+                  : ''
               }
               ${
-                response.otherPolicies &&
-                `
+                response.otherPolicies
+                  ? `
                 <li>
-                  Other policies:{" "}
+                  Other policies:
                   <span>
                     ${
                       response.otherPolicies.length
@@ -390,11 +386,12 @@ export const createCourseAiPolicyOutline = (
                   </span>
                 </li>
               `
+                  : ''
               }
             </ul>
           </section>
       
-      `.trim(),
+      `,
     });
   }
   // end of additionalPoliciesSubSections
@@ -430,13 +427,18 @@ export const formatResponse = (
   }: GenerativeAiPolicy
 ): CourseAiPolicyResponse => {
   return {
-    metadata: {
-      courseNumber,
-      courseTitle,
-      courseInstructor: instructor,
-      instructorEmail: email,
-      generatedAt: format(new Date(generatedAt), 'PPP'),
-    },
+    header: `
+      <div>
+        <h1>
+          ${courseNumber}: ${courseTitle}
+        </h1>
+        <p>
+          Course Instructor: ${instructor}[
+          ${email}]
+          <span>Generated on ${format(new Date(generatedAt), 'PPP')}</span>
+        </p>
+      </div>
+    `,
     content: courseAiPolicy,
   };
 };

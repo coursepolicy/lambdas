@@ -188,17 +188,12 @@ export interface SubSection {
   id: string;
   subSectionTitle: string;
   content: string;
+  miscData?: Record<string, any>;
 }
 
 export type CourseAiPolicy = Section[];
 
 export type CourseAiPolicyResponse = {
-  metadata: {
-    courseTitle: string;
-    courseNumber: string;
-    generatedAt: string;
-    instructorEmail: string;
-    courseInstructor: string;
-  };
+  header: string;
   content: CourseAiPolicy;
 };
