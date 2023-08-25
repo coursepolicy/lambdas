@@ -1,6 +1,6 @@
 import middy from '@middy/core';
 import { z } from 'zod';
-import { MiddlewareRequest } from './types';
+import { MiddlewareRequest } from '../../shared/types';
 
 const surveyresponsesRequestBodySchema = z.object({
   generatedId: z.string(),

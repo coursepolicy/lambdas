@@ -40,6 +40,7 @@
     "@middy/http-event-normalizer": "^4.5.5",
     "@middy/http-security-headers": "^4.5.5",
     "aws-sdk": "^2.1440.0",
+    "date-fns": "^2.30.0",
     "dotenv": "^16.3.1",
     "knex": "^2.5.1",
     "lodash": "^4.17.21",

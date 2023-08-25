@@ -1,6 +1,6 @@
 import middy from '@middy/core';
 import { APIGatewayEvent } from 'aws-lambda';
-import { SurveyResponsesRequestBody } from './schema';
+import { SurveyResponsesRequestBody } from '../http/responses/schema';
 
 // omit body
 
@@ -154,7 +154,7 @@ export interface GenerativeAiPolicy {
   academicIntegrityPolicy?: string;
   otherPolicies?: string;
   additionalNotes: string;
-  generatedAt?: string;
+  generatedAt: string;
 }
 
 export interface UseCases {
@@ -176,3 +176,29 @@ export const generativeAiPolicyMapper: PolicyMapper = {
   2: 'Allowed under conditions',
   3: 'Strictly prohibited',
 } as const;
+
+export interface Section {
+  [key: string]: any;
+  id: string;
+  sectionTitle: string;
+  subSections: SubSection[];
+}
+
+export interface SubSection {
+  id: string;
+  subSectionTitle: string;
+  content: string;
+}
+
+export type CourseAiPolicy = Section[];
+
+export type CourseAiPolicyResponse = {
+  metadata: {
+    courseTitle: string;
+    courseNumber: string;
+    generatedAt: string;
+    instructorEmail: string;
+    courseInstructor: string;
+  };
+  content: CourseAiPolicy;
+};

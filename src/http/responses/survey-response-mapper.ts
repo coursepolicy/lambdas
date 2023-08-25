@@ -1,12 +1,16 @@
 import { v4 as uuidv4 } from 'uuid';
+import { format, parse } from 'date-fns';
 import { toTitleCase } from './helpers';
 import {
+  CourseAiPolicy,
+  CourseAiPolicyResponse,
   GenerativeAiPolicy,
   Labels,
   ResponseObject,
+  SubSection,
   UseCases,
   generativeAiPolicyMapper,
-} from './types';
+} from '../../shared/types';
 
 const formatUseCases = ({
   QID16_DO,
@@ -148,21 +152,6 @@ export const surveyResponseMapper = ({
   }
   throw new Error('Invalid policy');
 };
-
-interface Section {
-  [key: string]: any;
-  id: string;
-  sectionTitle: string;
-  subSections: SubSection[];
-}
-
-interface SubSection {
-  id: string;
-  subSectionTitle: string;
-  content: string;
-}
-
-type CourseAiPolicy = Section[];
 
 export const createCourseAiPolicyOutline = (
   response: GenerativeAiPolicy
@@ -428,4 +417,26 @@ export const createCourseAiPolicyOutline = (
       subSections: additionalPoliciesSubSections,
     },
   ];
+};
+
+export const formatResponse = (
+  courseAiPolicy: CourseAiPolicy,
+  {
+    courseTitle,
+    courseNumber,
+    generatedAt,
+    email,
+    instructor,
+  }: GenerativeAiPolicy
+): CourseAiPolicyResponse => {
+  return {
+    metadata: {
+      courseNumber,
+      courseTitle,
+      courseInstructor: instructor,
+      instructorEmail: email,
+      generatedAt: format(new Date(generatedAt), 'PPP'),
+    },
+    content: courseAiPolicy,
+  };
 };
