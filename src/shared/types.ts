@@ -187,7 +187,7 @@ export interface Section {
 export interface SubSection {
   id: string;
   subSectionTitle: string;
-  content: string;
+  content: string | string[];
   miscData?: Record<string, any>;
 }
 

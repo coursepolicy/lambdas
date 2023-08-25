@@ -188,52 +188,51 @@ export const createCourseAiPolicyOutline = (
     generativeAiPolicySubSections.push({
       id: uuidv4(),
       subSectionTitle: 'Use Cases',
-      content: `
-        <section class="policy-use-cases-section">
-            <div>
-              <h3>Reasonable Use Cases</h3>
-              ${
-                response.useCases.reasonable.length
-                  ? `
-              <ul>
-                ${response.useCases.reasonable.reduce(
-                  (acc, entry) =>
-                    (acc += `
-                  <li>
-                    <strong>${entry.label}</strong>
-                    <p>${entry.text}</p>
-                  </li>
-                `),
-                  ''
-                )}
-              </ul>
-              `
-                  : '<p>None</p>'
-              }
-            </div>
-            <div>
-              <h3>Unreasonable Use Cases</h3>
-              ${
-                response.useCases.unreasonable.length
-                  ? `
-              <ul>
-                ${response.useCases.unreasonable.reduce(
-                  (acc, entry) =>
-                    (acc += `
-                <li>
-                        <strong>${entry.label}</strong>
-                        <p>${entry.text}</p>
-                      </li>
-                `),
-                  ''
-                )}
-              </ul>
-              `
-                  : '<p>None</p>'
-              }
-            </div>
-          </section>
-      `,
+      content: [
+        `<div>
+      <h3>Reasonable Use Cases</h3>
+      ${
+        response.useCases.reasonable.length
+          ? `
+        ${response.useCases.reasonable.reduce(
+          (acc, entry) =>
+            (acc += `
+            <strong>${entry.label}</strong>
+            <ul>
+              <li>
+                
+                <p>${entry.text}</p>
+              </li>
+            </ul>
+          `),
+          ''
+        )}
+      `
+          : '<p>None</p>'
+      }
+    </div>`,
+        `<div>
+    <h3>Unreasonable Use Cases</h3>
+    ${
+      response.useCases.unreasonable.length
+        ? `
+      ${response.useCases.unreasonable.reduce(
+        (acc, entry) =>
+          (acc += `
+          <strong>${entry.label}</strong>
+          <ul>
+            <li>
+              <p>${entry.text}</p>
+            </li>
+          </ul>
+        `),
+        ''
+      )}
+    `
+        : '<p>None</p>'
+    }
+  </div>`,
+      ],
     });
   }
 
@@ -257,15 +256,17 @@ export const createCourseAiPolicyOutline = (
       content: `
       <section class="policy-ehtical-guidelines-section">
         <h3>Ethical guidelines for using generative AI for this course:</h3>
-        ${response.ethicalGuidelines.reduce(
-          (acc, text) => (acc += `<p>${text}</p>`),
-          ''
-        )}
-        ${
-          response.additionalGuidelines
-            ? `<p>${response.additionalGuidelines}</p>`
-            : ''
-        }
+        <ul>
+          ${response.ethicalGuidelines.reduce(
+            (acc, text) => (acc += `<li>${text}</li>`),
+            ''
+          )}
+          ${
+            response.additionalGuidelines
+              ? `<li>${response.additionalGuidelines}</li>`
+              : ''
+          }
+        </ul>
       </section>
       `,
     });
@@ -278,15 +279,17 @@ export const createCourseAiPolicyOutline = (
       content: `
         <section class="policy-declaration-section">
           <h3>How to declare the use of generative tools:</h3>
-          ${response.generativeAiToolDeclarations.reduce(
-            (acc, text) => (acc += `<p>${text}</p>`),
-            ''
-          )}
-          ${
-            response.additionalGenerativeAiToolsDeclarations
-              ? `<p>${response.additionalGenerativeAiToolsDeclarations}</p>`
-              : ''
-          }
+          <ul>
+            ${response.generativeAiToolDeclarations.reduce(
+              (acc, text) => (acc += `<li>${text}</li>`),
+              ''
+            )}
+            ${
+              response.additionalGenerativeAiToolsDeclarations
+                ? `<li>${response.additionalGenerativeAiToolsDeclarations}</li>`
+                : ''
+            }
+          </ul>
         </section>
       `,
     });
