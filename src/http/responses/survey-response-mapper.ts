@@ -65,7 +65,6 @@ const formatUseCases = ({
           text,
         };
 
-        debugger;
         if (status === 'Not Applicable') {
           return acc;
         }
