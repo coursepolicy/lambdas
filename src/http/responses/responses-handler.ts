@@ -1,7 +1,10 @@
 import 'dotenv/config';
 import { ExtendedApiGateWayEvent } from './types';
 import { longPolling } from './long-polling';
-import { surveyResponseMapper } from './survey-response-mapper';
+import {
+  createCourseAiPolicyOutline,
+  surveyResponseMapper,
+} from './survey-response-mapper';
 
 export const responsesHandler = async ({
   queryStringParameters: { generatedId },
@@ -9,10 +12,11 @@ export const responsesHandler = async ({
   try {
     const data = await longPolling(generatedId);
     const mappedData = surveyResponseMapper(data.results);
+    const courseAiPolicy = createCourseAiPolicyOutline(mappedData);
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ data: mappedData }),
+      body: JSON.stringify({ data: courseAiPolicy }),
     };
   } catch (error) {
     return {
