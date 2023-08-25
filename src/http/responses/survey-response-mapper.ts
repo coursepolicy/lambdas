@@ -5,7 +5,7 @@ import {
   CourseAiPolicy,
   CourseAiPolicyResponse,
   GenerativeAiPolicy,
-  Labels,
+  Values,
   ResponseObject,
   SubSection,
   UseCases,
@@ -16,29 +16,59 @@ const formatUseCases = ({
   QID16_DO,
   QID19_TEXT,
   QID20_TEXT,
-  labels,
+  values,
 }: {
   QID16_DO?: string[];
   QID19_TEXT?: string;
-  labels: Labels;
   QID20_TEXT?: string;
+  values: Values;
 }) => {
   let useCases;
 
   if (QID16_DO) {
+    const useCaseReasonabilityMapper: {
+      [index: number]: string;
+    } = {
+      1: 'Reasonable',
+      2: 'Not Reasonable',
+      3: 'Not Applicable',
+    };
+
+    const useCasesMapper: {
+      [index: string]: string;
+    } = {
+      'Grammar Check': 'QID16_1',
+      'Concept Learning': 'QID16_2',
+      'Argument Generation': 'QID16_3',
+      'Outline Generation': 'QID16_12',
+      'Essay Generation': 'QID16_4',
+      'Test-taking': 'QID16_5',
+      'Literature Discovery': 'QID16_6',
+      'Summary Generation': 'QID16_7',
+      'Coding Assistant': 'QID16_8',
+      'Art Creation': 'QID16_9',
+      'Data Fabrication': 'QID16_10',
+    };
+
     useCases = QID16_DO.reduce(
-      (acc: UseCases, item: string, index: number) => {
+      (acc: UseCases, item: string) => {
         let [label, text] = item.split(':');
         label = toTitleCase(label);
         text = text.trim();
 
-        const key = `QID16_${index === 10 ? index + 2 : index + 1}`;
-        const status = labels[key];
+        const key = useCasesMapper[label];
+        const statusNum = values[key];
+        const status = useCaseReasonabilityMapper[statusNum];
 
         const useCaseEntry = {
           label,
           text,
         };
+
+        debugger;
+        if (status === 'Not Applicable') {
+          return acc;
+        }
 
         if (status === 'Reasonable') {
           acc.reasonable.push(useCaseEntry);
@@ -55,6 +85,8 @@ const formatUseCases = ({
         unreasonable: [],
       }
     );
+
+    console.log({ useCases: JSON.stringify(useCases) });
 
     if (QID19_TEXT) {
       useCases.reasonable.push({
@@ -96,7 +128,12 @@ export const surveyResponseMapper = ({
   const generativeAiToolDeclarations = QID26_DO
     ? QID26_DO.slice(0, QID26_DO.length - 1)
     : undefined;
-  const useCases = formatUseCases({ QID19_TEXT, QID20_TEXT, QID16_DO, labels });
+  const useCases = formatUseCases({
+    QID19_TEXT,
+    QID20_TEXT,
+    QID16_DO,
+    values,
+  });
 
   const base = {
     courseNumber: values.QID4_3,

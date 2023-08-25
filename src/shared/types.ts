@@ -55,7 +55,7 @@ export interface Labels {
   finished: string;
 }
 
-interface Values {
+export interface Values {
   [index: string]: any;
   QID8: number;
   QID15: number;
