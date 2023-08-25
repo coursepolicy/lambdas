@@ -190,48 +190,48 @@ export const createCourseAiPolicyOutline = (
       subSectionTitle: 'Use Cases',
       content: [
         `<div>
-      <h3>Reasonable Use Cases</h3>
-      ${
-        response.useCases.reasonable.length
-          ? `
-        ${response.useCases.reasonable.reduce(
-          (acc, entry) =>
-            (acc += `
-            <strong>${entry.label}</strong>
-            <ul>
-              <li>
-                
-                <p>${entry.text}</p>
-              </li>
-            </ul>
-          `),
-          ''
-        )}
-      `
-          : '<p>None</p>'
-      }
-    </div>`,
+          <h3>Reasonable Use Cases ✅</h3>
+          ${
+            response.useCases.reasonable.length
+              ? `
+            ${response.useCases.reasonable.reduce(
+              (acc, entry) =>
+                (acc += `
+                <strong>${entry.label}</strong>
+                <ul>
+                  <li>
+                    
+                    <p>${entry.text}</p>
+                  </li>
+                </ul>
+              `),
+              ''
+            )}
+          `
+              : '<p>None</p>'
+          }
+        </div>`,
         `<div>
-    <h3>Unreasonable Use Cases</h3>
-    ${
-      response.useCases.unreasonable.length
-        ? `
-      ${response.useCases.unreasonable.reduce(
-        (acc, entry) =>
-          (acc += `
-          <strong>${entry.label}</strong>
-          <ul>
-            <li>
-              <p>${entry.text}</p>
-            </li>
-          </ul>
-        `),
-        ''
-      )}
-    `
-        : '<p>None</p>'
-    }
-  </div>`,
+          <h3>Unreasonable Use Cases ❌</h3>
+          ${
+            response.useCases.unreasonable.length
+              ? `
+            ${response.useCases.unreasonable.reduce(
+              (acc, entry) =>
+                (acc += `
+                <strong>${entry.label}</strong>
+                <ul>
+                  <li>
+                    <p>${entry.text}</p>
+                  </li>
+                </ul>
+              `),
+              ''
+            )}
+          `
+              : '<p>None</p>'
+          }
+        </div>`,
       ],
     });
   }
@@ -301,7 +301,15 @@ export const createCourseAiPolicyOutline = (
     content: `
      <section class="policy-notes-section">
         <h3>Additional Notes</h3>
-        ${response.additionalNotes ? `<p>${response.additionalNotes}</p>` : ''}
+        ${
+          response.additionalNotes
+            ? `
+        <ul>
+          <li>${response.additionalNotes}</li>
+        </ul>
+        `
+            : ''
+        }
       </section>
     `,
   });
