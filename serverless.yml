@@ -32,3 +32,9 @@ functions:
           path: /responses
           method: get
     timeout: 30
+  updatePolicy:
+    handler: dist/src/http/update-policy/index.handler
+    events:
+      - httpApi:
+          path: /policy
+          method: put

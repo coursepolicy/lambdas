@@ -1,17 +1,3 @@
-import middy from '@middy/core';
-import { APIGatewayEvent } from 'aws-lambda';
-import { SurveyResponsesRequestBody } from '../http/responses/schema';
-
-export type ExtendedApiGateWayEvent = Omit<
-  APIGatewayEvent,
-  'queryStringParameters'
-> & {
-  queryStringParameters: SurveyResponsesRequestBody;
-};
-
-export interface MiddlewareRequest
-  extends middy.Request<ExtendedApiGateWayEvent> {}
-
 export interface ResponseObject {
   labels: Labels;
   values: Values;

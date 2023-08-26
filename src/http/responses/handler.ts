@@ -1,7 +1,8 @@
 import 'dotenv/config';
-import { ExtendedApiGateWayEvent } from '../../shared/types';
 import { longPolling } from './long-polling';
+import { ExtendedApiGateWayEvent } from './types';
 
+// TODO - make this similar to update policy handler
 export const responsesHandler = async ({
   queryStringParameters: { generatedId },
 }: ExtendedApiGateWayEvent) => {
@@ -10,7 +11,7 @@ export const responsesHandler = async ({
 
     return {
       statusCode: 200,
-      body: JSON.stringify(results),
+      body: JSON.stringify({ data: results }),
     };
   } catch (error) {
     return {

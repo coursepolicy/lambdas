@@ -3,13 +3,17 @@ import httpErrorHandler from '@middy/http-error-handler';
 import httpEventNormalizer from '@middy/http-event-normalizer';
 import errorLogger from '@middy/error-logger';
 import httpSecurityHeaders from '@middy/http-security-headers';
+import { responsesHandler } from './handler';
+import {
+  parseJsonBody,
+  validateRequestBodySchema,
+  validateRequestQueryParam,
+} from './middlewares';
 
-import { surveyHookHandler } from './handler';
-import { parseJsonBody, validateHookBody } from './middlewares';
-
-export const handler = middy(surveyHookHandler)
+export const handler = middy(responsesHandler)
   .before(parseJsonBody())
-  .before(validateHookBody())
+  .before(validateRequestBodySchema())
+  .before(validateRequestQueryParam())
   .use(httpEventNormalizer())
   .use(errorLogger())
   .use(httpErrorHandler())
