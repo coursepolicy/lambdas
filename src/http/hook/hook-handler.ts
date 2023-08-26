@@ -48,18 +48,17 @@ export const surveyHookHandler = async ({
     const courseAiPolicy = createPolicyOutline(mappedData);
     const courseAiPolicyResponse = policyFormatter(courseAiPolicy, mappedData);
     const result = await saveSurveyResponse({
-      data: courseAiPolicyResponse,
-      db,
-      id,
-      raw: data.result,
+      coursePolicyData: courseAiPolicyResponse,
+      database: db,
+      policyId: id,
+      rawResponse: data.result,
     });
 
-    if (result === 1) {
+    if (!result) {
       return {
-        statusCode: 200,
+        statusCode: 400,
         body: JSON.stringify({
-          message: 'DB Update Success',
-          generatedId: id,
+          message: 'DB failure',
         }),
       };
     }

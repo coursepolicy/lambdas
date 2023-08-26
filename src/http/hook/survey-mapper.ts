@@ -58,8 +58,6 @@ const formatUseCases = ({
       }
     );
 
-    console.log({ useCases: JSON.stringify(useCases) });
-
     if (QID19_TEXT) {
       useCases.reasonable.push({
         label: 'Additional examples',

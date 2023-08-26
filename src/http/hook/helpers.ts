@@ -3,34 +3,39 @@ import { isEmpty } from 'lodash';
 import { CourseAiPolicyResponse, ResponseObject } from '../../shared';
 
 export const saveSurveyResponse = async ({
-  data,
-  db,
-  id,
-  raw,
+  coursePolicyData,
+  database,
+  policyId,
+  rawResponse,
 }: {
-  data: CourseAiPolicyResponse;
-  db: Knex;
-  id: string;
-  raw: ResponseObject;
-}) => {
-  const existingResponse = await db('survey_responses').where({ id }).first();
+  coursePolicyData: CourseAiPolicyResponse;
+  database: Knex;
+  policyId: string;
+  rawResponse: ResponseObject;
+}): Promise<string> => {
+  const existingResponse = await database('survey_responses')
+    .where({ id: policyId })
+    .first();
 
   if (!isEmpty(existingResponse)) {
-    return db('survey_responses')
-      .where({ id })
+    return database('survey_responses')
+      .where({ id: policyId })
       .update({
-        results: JSON.stringify(data),
-        raw_response: JSON.stringify(raw),
-        updated_at: db.fn.now(),
-      });
+        results: JSON.stringify(coursePolicyData),
+        raw_response: JSON.stringify(rawResponse),
+        updated_at: database.fn.now(),
+      })
+      .returning('id');
   }
 
-  return db('survey_responses').insert({
-    id,
-    results: JSON.stringify(data),
-    raw_response: JSON.stringify(raw),
-    updated_at: db.fn.now(),
-  });
+  return database('survey_responses')
+    .insert({
+      id: policyId,
+      results: JSON.stringify(coursePolicyData),
+      raw_response: JSON.stringify(rawResponse),
+      updated_at: database.fn.now(),
+    })
+    .returning('id');
 };
 
 export const toTitleCase = (str: string) => {
