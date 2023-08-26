@@ -2,8 +2,6 @@ import middy from '@middy/core';
 import { APIGatewayEvent } from 'aws-lambda';
 import { SurveyResponsesRequestBody } from '../http/responses/schema';
 
-// omit body
-
 export type ExtendedApiGateWayEvent = Omit<
   APIGatewayEvent,
   'queryStringParameters'
@@ -166,17 +164,6 @@ interface UseCaseEntry {
   label: string;
   text: string;
 }
-
-interface PolicyMapper {
-  [index: number]: string;
-}
-
-export const generativeAiPolicyMapper: PolicyMapper = {
-  1: 'No restrictions',
-  2: 'Allowed under conditions',
-  3: 'Strictly prohibited',
-} as const;
-
 export interface Section {
   [key: string]: any;
   id: string;

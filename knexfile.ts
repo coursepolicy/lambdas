@@ -1,16 +1,17 @@
-import { Knex } from "knex";
+import 'dotenv/config';
+import { Knex } from 'knex';
 
 const { DATABASE_URL } = process.env;
 
 const defaultConfig: Knex.Config = {
-  client: "pg",
+  client: 'pg',
   connection: {
     connectionString: DATABASE_URL,
     ssl: { rejectUnauthorized: false },
   },
   migrations: {
-    directory: "./data/migrations",
-    extension: "js",
+    directory: './data/migrations',
+    extension: 'js',
   },
   acquireConnectionTimeout: 5000,
   pool: {
