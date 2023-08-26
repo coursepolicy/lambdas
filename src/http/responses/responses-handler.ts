@@ -6,11 +6,11 @@ export const responsesHandler = async ({
   queryStringParameters: { generatedId },
 }: ExtendedApiGateWayEvent) => {
   try {
-    const data = await longPolling(generatedId);
+    const { results } = await longPolling(generatedId);
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ data }),
+      body: JSON.stringify(results),
     };
   } catch (error) {
     return {

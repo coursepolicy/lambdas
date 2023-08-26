@@ -12,6 +12,7 @@ export const longPolling = async (generatedId: string) => {
     const data = await db('survey_responses')
       .where({ id: generatedId })
       .first();
+
     const found = !isEmpty(data);
 
     if (found) {
