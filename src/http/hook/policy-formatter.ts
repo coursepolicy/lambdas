@@ -22,8 +22,7 @@ export const policyFormatter = (
           ${courseNumber}: ${courseTitle}
         </h1>
         <p>
-          Course Instructor: ${instructor}[
-          ${email}]
+          Course Instructor: ${instructor}[${email}]
           <span>Generated on ${format(new Date(generatedAt), 'PPP')}</span>
         </p>
       </div>

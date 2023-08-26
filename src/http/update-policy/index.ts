@@ -3,6 +3,7 @@ import httpErrorHandler from '@middy/http-error-handler';
 import httpEventNormalizer from '@middy/http-event-normalizer';
 import errorLogger from '@middy/error-logger';
 import httpSecurityHeaders from '@middy/http-security-headers';
+import cors from '@middy/http-cors';
 import { responsesHandler } from './handler';
 import {
   parseJsonBody,
@@ -17,4 +18,5 @@ export const handler = middy(responsesHandler)
   .use(httpEventNormalizer())
   .use(errorLogger())
   .use(httpErrorHandler())
+  .use(cors())
   .use(httpSecurityHeaders());

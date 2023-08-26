@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash';
 import { db } from '../../../data/knex';
 
-export const updatePolicy = async (id: string, policy: string) => {
+export const updatePolicy = async (id: string, policy: any) => {
   const updatedPolicy = await db('survey_responses').where({ id }).first();
 
   if (isEmpty(updatedPolicy)) {
