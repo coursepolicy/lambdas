@@ -17,6 +17,8 @@ provider:
   websocketsApiName: survey-response-api
   websocketsApiRouteSelectionExpression: $request.body.action
   websocketsDescription: Course Policy AI Survey Response Websockets
+  httpApi:
+    cors: true
 
 functions:
   webhook:

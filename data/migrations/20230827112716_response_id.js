@@ -5,12 +5,12 @@
 exports.up = async function (knex) {
   if (
     !(await knex.schema.hasTable('survey_responses')) ||
-    (await knex.schema.hasColumn('raw_response'))
+    (await knex.schema.hasColumn('response_id'))
   )
     return;
 
   return knex.schema.table('survey_responses', (table) => {
-    table.jsonb('raw_response');
+    table.string('response_id');
   });
 };
 
@@ -20,6 +20,6 @@ exports.up = async function (knex) {
  */
 exports.down = function (knex) {
   return knex.schema.table('survey_responses', (table) => {
-    table.dropColumn('raw_response');
+    table.dropColumn('response_id');
   });
 };

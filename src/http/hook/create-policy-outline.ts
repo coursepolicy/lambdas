@@ -189,15 +189,13 @@ export const createPolicyOutline = (
               ${
                 response.campusWidePolicy
                   ? `
+                
                 <li>
-                  Campus-wide generative AI policy:
-                  <span>
-                    ${
-                      response.campusWidePolicy.length
-                        ? response.campusWidePolicy
-                        : 'N/A'
-                    }
-                  </span>
+                ${
+                  response.campusWidePolicy.length
+                    ? `<p><a target="_blank" rel="noopener noreferrer nofollow" class="editor-links" href="${response.campusWidePolicy}">Campus-wide generative AI policy</a></p>`
+                    : 'Campus-wide generative AI policy: N/A'
+                }
                 </li>
               `
                   : ''
@@ -206,14 +204,11 @@ export const createPolicyOutline = (
                 response.departmentWidePolicy
                   ? `
                 <li>
-                  Department-wide generative AI policy:
-                  <span>
-                    ${
-                      response.departmentWidePolicy.length
-                        ? response.departmentWidePolicy
-                        : 'N/A'
-                    }
-                  </span>
+                ${
+                  response.departmentWidePolicy.length
+                    ? `<p><a target="_blank" rel="noopener noreferrer nofollow" class="editor-links" href="${response.departmentWidePolicy}">Department-wide generative AI policy</a></p>`
+                    : 'Department-wide generative AI policy: N/A'
+                }
                 </li>
               `
                   : ''
@@ -221,32 +216,27 @@ export const createPolicyOutline = (
               ${
                 response.academicIntegrityPolicy
                   ? `
-                <li>
-                  Academic Integrity policy:
-                  <span>
-                    ${
-                      response.academicIntegrityPolicy.length
-                        ? response.academicIntegrityPolicy
-                        : 'N/A'
-                    }
-                  </span>
-                </li>
+                  
+                  <li>
+                  ${
+                    response.academicIntegrityPolicy.length
+                      ? `<p><a target="_blank" rel="noopener noreferrer nofollow" class="editor-links" href="${response.academicIntegrityPolicy}">Academic Integrity policy</a></p>`
+                      : 'Academic Integrity policy: N/A'
+                  }
+                  </li>
               `
                   : ''
               }
               ${
                 response.otherPolicies
                   ? `
-                <li>
-                  Other policies:
-                  <span>
-                    ${
-                      response.otherPolicies.length
-                        ? response.otherPolicies
-                        : 'N/A'
-                    }
-                  </span>
-                </li>
+                  <li>
+                  ${
+                    response.otherPolicies.length
+                      ? `<p><a target="_blank" rel="noopener noreferrer nofollow" class="editor-links" href="${response.otherPolicies}">Other policies</a></p>`
+                      : 'Other policies: N/A'
+                  }
+                  </li>
               `
                   : ''
               }

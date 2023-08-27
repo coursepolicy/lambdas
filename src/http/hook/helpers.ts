@@ -6,11 +6,13 @@ export const saveSurveyResponse = async ({
   coursePolicyData,
   database,
   policyId,
+  responseId,
   rawResponse,
 }: {
   coursePolicyData: CourseAiPolicyResponse;
   database: Knex;
   policyId: string;
+  responseId: string;
   rawResponse: ResponseObject;
 }): Promise<string> => {
   const existingResponse = await database('survey_responses')
@@ -23,6 +25,7 @@ export const saveSurveyResponse = async ({
       .update({
         results: JSON.stringify(coursePolicyData),
         raw_response: JSON.stringify(rawResponse),
+        response_id: responseId,
         updated_at: database.fn.now(),
       })
       .returning('id');
@@ -33,6 +36,7 @@ export const saveSurveyResponse = async ({
       id: policyId,
       results: JSON.stringify(coursePolicyData),
       raw_response: JSON.stringify(rawResponse),
+      response_id: responseId,
       updated_at: database.fn.now(),
     })
     .returning('id');

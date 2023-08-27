@@ -51,6 +51,7 @@ export const surveyHookHandler = async ({
       coursePolicyData: courseAiPolicyResponse,
       database: db,
       policyId: id,
+      responseId: data.result.responseId,
       rawResponse: data.result,
     });
 
@@ -67,7 +68,7 @@ export const surveyHookHandler = async ({
       statusCode: 200,
       body: JSON.stringify({
         message: 'DB Insert Success',
-        generatedId: 'TESTING_OVERRIDE',
+        generatedId: id,
       }),
     };
   } catch (error) {
