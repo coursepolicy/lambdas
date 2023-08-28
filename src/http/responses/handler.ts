@@ -1,6 +1,6 @@
 import 'dotenv/config';
-import { longPolling } from './long-polling';
-import { ExtendedApiGateWayEvent } from './types';
+import { longPolling } from './services/long-polling';
+import { ExtendedApiGateWayEvent } from './utils/types';
 
 // TODO - make this similar to update policy handler
 export const responsesHandler = async ({

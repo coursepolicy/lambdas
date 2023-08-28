@@ -1,9 +1,41 @@
 import { v4 as uuidv4 } from 'uuid';
-import { CourseAiPolicy, GenerativeAiPolicy, SubSection } from '../../shared';
+import {
+  CourseAiPolicy,
+  CourseAiPolicyResponse,
+  GenerativeAiPolicy,
+  SubSection,
+} from '../../../shared';
+import { format } from 'date-fns';
 
-export const createPolicyOutline = (
+const policyFormatter = (
+  courseAiPolicy: CourseAiPolicy,
+  {
+    courseTitle,
+    courseNumber,
+    generatedAt,
+    email,
+    instructor,
+  }: GenerativeAiPolicy
+): CourseAiPolicyResponse => {
+  return {
+    header: `
+      <div>
+        <h1>
+          ${courseNumber}: ${courseTitle}
+        </h1>
+        <p>
+          Course Instructor: ${instructor}[${email}]
+          <span>Generated on ${format(new Date(generatedAt), 'PPP')}</span>
+        </p>
+      </div>
+    `,
+    content: courseAiPolicy,
+  };
+};
+
+export const createCoursePolicy = (
   response: GenerativeAiPolicy
-): CourseAiPolicy => {
+): CourseAiPolicyResponse => {
   const courseDescriptionSubSections: SubSection[] = [];
   const generativeAiPolicySubSections: SubSection[] = [];
   const additionalPoliciesSubSections: SubSection[] = [];
@@ -248,22 +280,25 @@ export const createPolicyOutline = (
   }
   // end of additionalPoliciesSubSections
 
-  return [
-    {
-      // section
-      id: uuidv4(),
-      sectionTitle: 'Course Description',
-      subSections: courseDescriptionSubSections,
-    },
-    {
-      id: uuidv4(),
-      sectionTitle: 'Generative AI Policy',
-      subSections: generativeAiPolicySubSections,
-    },
-    {
-      id: uuidv4(),
-      sectionTitle: 'Additional Policies',
-      subSections: additionalPoliciesSubSections,
-    },
-  ];
+  return policyFormatter(
+    [
+      {
+        // section
+        id: uuidv4(),
+        sectionTitle: 'Course Description',
+        subSections: courseDescriptionSubSections,
+      },
+      {
+        id: uuidv4(),
+        sectionTitle: 'Generative AI Policy',
+        subSections: generativeAiPolicySubSections,
+      },
+      {
+        id: uuidv4(),
+        sectionTitle: 'Additional Policies',
+        subSections: additionalPoliciesSubSections,
+      },
+    ],
+    response
+  );
 };

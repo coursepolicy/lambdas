@@ -1,4 +1,8 @@
-export interface ResponseObject {
+export interface DataResponseObject {
+  result: ResponseResultObject;
+}
+
+export interface ResponseResultObject {
   labels: Labels;
   values: Values;
   responseId: string;

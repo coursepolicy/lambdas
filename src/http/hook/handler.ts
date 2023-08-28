@@ -2,13 +2,12 @@ import 'dotenv/config';
 
 import { db } from '../../../data/knex';
 import { baseUrl } from '../../shared/constants';
-import { saveSurveyResponse } from './helpers';
-import { get } from 'lodash';
-import { ExtendedApiGateWayEvent } from './types';
-import { surveyResponseMapper } from './survey-mapper';
-import { ResponseObject } from '../../shared';
-import { createPolicyOutline } from './create-policy-outline';
-import { policyFormatter } from './policy-formatter';
+import { flow, get } from 'lodash';
+import { ExtendedApiGateWayEvent } from './utils/types';
+import { surveyResponseMapper } from './services/survey-response-mapper';
+import { DataResponseObject } from '../../shared';
+import { createCoursePolicy } from './services/create-course-policy';
+import { saveCoursePolicy } from './services/save-survey-response';
 
 const { SURVEY_ID, QUALTRICS_API_TOKEN } = process.env;
 
@@ -30,12 +29,12 @@ export const surveyHookHandler = async ({
     if (response.status !== 200) {
       throw new Error('Qualtrics API call failed');
     }
-    const data: { result: ResponseObject } = await response.json();
-    const id = String(get(data, 'result.values.QID13_TEXT'));
+    const data: DataResponseObject = await response.json();
+    const generatedUuId = String(get(data, 'result.values.QID13_TEXT'));
 
     if (saveDb === false) {
       const queriedResponse = await db('survey_responses')
-        .where({ id })
+        .where({ id: generatedUuId })
         .first();
 
       return {
@@ -44,16 +43,11 @@ export const surveyHookHandler = async ({
       };
     }
 
-    const mappedData = surveyResponseMapper(data.result);
-    const courseAiPolicy = createPolicyOutline(mappedData);
-    const courseAiPolicyResponse = policyFormatter(courseAiPolicy, mappedData);
-    const result = await saveSurveyResponse({
-      coursePolicyData: courseAiPolicyResponse,
-      database: db,
-      policyId: id,
-      responseId: data.result.responseId,
-      rawResponse: data.result,
-    });
+    const result = flow(
+      surveyResponseMapper,
+      createCoursePolicy,
+      await saveCoursePolicy(data)
+    )(data.result);
 
     if (!result) {
       return {
@@ -68,7 +62,7 @@ export const surveyHookHandler = async ({
       statusCode: 200,
       body: JSON.stringify({
         message: 'DB Insert Success',
-        generatedId: id,
+        generatedId: generatedUuId,
       }),
     };
   } catch (error) {

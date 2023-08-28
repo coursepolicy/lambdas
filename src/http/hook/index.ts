@@ -6,7 +6,7 @@ import cors from '@middy/http-cors';
 import httpSecurityHeaders from '@middy/http-security-headers';
 
 import { surveyHookHandler } from './handler';
-import { parseJsonBody, validateHookBody } from './middlewares';
+import { parseJsonBody, validateHookBody } from './utils/middlewares';
 
 export const handler = middy(surveyHookHandler)
   .before(parseJsonBody())

@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash';
-import { db } from '../../../data/knex';
+import { db } from '../../../../data/knex';
 
 const MAX_TIME_ALOTTED = 15_000;
 const TIME_TO_WAIT = 1_000;

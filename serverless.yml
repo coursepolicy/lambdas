@@ -40,3 +40,11 @@ functions:
       - httpApi:
           path: /policy
           method: put
+  generatePdf:
+    handler: dist/src/http/generate-pdf/index.handler
+    events:
+      - httpApi:
+          path: /generate-pdf
+          method: get
+    timeout: 300
+    memorySize: 2048

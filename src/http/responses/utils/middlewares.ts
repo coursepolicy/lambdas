@@ -1,14 +1,6 @@
 import middy from '@middy/core';
-import { z } from 'zod';
 import { MiddlewareRequest } from './types';
-
-const surveyresponsesRequestBodySchema = z.object({
-  generatedId: z.string(),
-});
-
-export type SurveyResponsesRequestBody = z.infer<
-  typeof surveyresponsesRequestBodySchema
->;
+import { surveyresponsesRequestBodySchema } from './schema';
 
 export const validateRequestBody =
   (): middy.MiddlewareFn => (request: MiddlewareRequest) => {

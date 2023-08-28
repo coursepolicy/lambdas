@@ -1,5 +1,5 @@
-import { ExtendedApiGateWayEvent } from './types';
-import { updatePolicy } from './update-policy';
+import { ExtendedApiGateWayEvent } from './utils/types';
+import { updatePolicy } from './services/update-policy';
 
 export const responsesHandler = async ({
   queryStringParameters: { id },

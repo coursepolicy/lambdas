@@ -2,12 +2,12 @@ import {
   useCaseReasonabilityMapper,
   useCasesMapper,
   GenerativeAiPolicy,
-  ResponseObject,
+  ResponseResultObject,
   Values,
   UseCases,
   generativeAiPolicyMapper,
-} from '../../shared';
-import { toTitleCase } from './helpers';
+} from '../../../shared';
+import { toTitleCase } from '../utils/helpers';
 
 const formatUseCases = ({
   QID16_DO,
@@ -79,7 +79,7 @@ const formatUseCases = ({
 export const surveyResponseMapper = ({
   values,
   labels,
-}: ResponseObject): GenerativeAiPolicy => {
+}: ResponseResultObject): GenerativeAiPolicy => {
   const {
     QID15,
     QID25_6_TEXT: additionalGuidelines,

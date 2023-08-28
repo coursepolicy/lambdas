@@ -5,7 +5,7 @@ import errorLogger from '@middy/error-logger';
 import cors from '@middy/http-cors';
 import httpSecurityHeaders from '@middy/http-security-headers';
 import { responsesHandler } from './handler';
-import { validateRequestBody } from './schema';
+import { validateRequestBody } from './utils/middlewares';
 
 export const handler = middy(responsesHandler)
   .before(validateRequestBody())

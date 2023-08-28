@@ -9,7 +9,7 @@ import {
   parseJsonBody,
   validateRequestBodySchema,
   validateRequestQueryParam,
-} from './middlewares';
+} from './utils/middlewares';
 
 export const handler = middy(responsesHandler)
   .before(parseJsonBody())
