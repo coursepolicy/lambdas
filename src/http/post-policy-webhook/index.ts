@@ -5,11 +5,11 @@ import errorLogger from '@middy/error-logger';
 import cors from '@middy/http-cors';
 import httpSecurityHeaders from '@middy/http-security-headers';
 
-import { surveyHookHandler } from './handler';
+import { postPolicyWebhookHandler } from './handler';
 import { parseJsonBody, validateRequestBody } from './utils/middlewares';
 
 // POST /hook
-export const handler = middy(surveyHookHandler)
+export const handler = middy(postPolicyWebhookHandler)
   .before(parseJsonBody())
   .before(validateRequestBody())
   .use(httpEventNormalizer())

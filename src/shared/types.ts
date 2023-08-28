@@ -174,3 +174,9 @@ export type CourseAiPolicyResponse = {
   header: string;
   content: CourseAiPolicy;
 };
+
+interface UpdatedPolicy {
+  results: CourseAiPolicyResponse;
+}
+
+export type ReturningUpdatedPolicy = UpdatedPolicy[];

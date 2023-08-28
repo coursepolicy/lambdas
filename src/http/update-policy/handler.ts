@@ -1,16 +1,17 @@
 import { ExtendedApiGateWayEvent } from './utils/types';
 import { updatePolicy } from './services/update-policy';
 
-export const responsesHandler = async ({
+export const updatePolicyHandler = async ({
   queryStringParameters: { id },
   parsedBody: { policy },
 }: ExtendedApiGateWayEvent) => {
   try {
-    const updated = await updatePolicy(id, policy);
+    const [updatedPolicy] = await updatePolicy(id, policy);
+    const { results } = updatedPolicy;
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ data: updated }),
+      body: JSON.stringify({ data: results }),
     };
   } catch (error) {
     return {

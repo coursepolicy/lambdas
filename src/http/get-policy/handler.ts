@@ -3,7 +3,7 @@ import { longPolling } from './services/long-polling';
 import { ExtendedApiGateWayEvent } from './utils/types';
 
 // TODO - make this similar to update policy handler
-export const responsesHandler = async ({
+export const getPolicyHandler = async ({
   queryStringParameters: { generatedId },
 }: ExtendedApiGateWayEvent) => {
   try {

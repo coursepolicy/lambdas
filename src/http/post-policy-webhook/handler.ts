@@ -11,7 +11,7 @@ import { saveCoursePolicy } from './services/save-course-policy';
 
 const { SURVEY_ID, QUALTRICS_API_TOKEN } = process.env;
 
-export const surveyHookHandler = async ({
+export const postPolicyWebhookHandler = async ({
   parsedBody: { responseId, saveDb },
 }: ExtendedApiGateWayEvent) => {
   try {

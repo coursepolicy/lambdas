@@ -1,11 +1,14 @@
 import { isEmpty } from 'lodash';
 import { db } from '../../../../data/knex';
-import { CourseAiPolicyResponse } from '../../../shared';
+import {
+  CourseAiPolicyResponse,
+  ReturningUpdatedPolicy,
+} from '../../../shared';
 
 export const updatePolicy = async (
   id: string,
   policy: CourseAiPolicyResponse
-) => {
+): Promise<ReturningUpdatedPolicy> => {
   const updatedPolicy = await db('survey_responses').where({ id }).first();
 
   if (isEmpty(updatedPolicy)) {
