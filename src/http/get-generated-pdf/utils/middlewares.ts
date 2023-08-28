@@ -1,6 +1,6 @@
 import middy from '@middy/core';
+import { getGeneratedQueryParams } from './schema';
 import { MiddlewareRequest } from './types';
-import { getPolicyQueryParams } from './schema';
 
 export const validateQueryParameters =
   (): middy.MiddlewareFn => (request: MiddlewareRequest) => {
@@ -8,7 +8,7 @@ export const validateQueryParameters =
       throw new Error('query params is empty');
     }
     try {
-      request.event.queryStringParameters = getPolicyQueryParams.parse(
+      request.event.queryStringParameters = getGeneratedQueryParams.parse(
         request.event.queryStringParameters
       );
     } catch (error) {

@@ -1,13 +1,13 @@
 import middy from '@middy/core';
 
 import { APIGatewayEvent } from 'aws-lambda';
-import { GetPolicyQueryParamsSchema } from './schema';
+import { GetGeneratedQueryParamsSchema } from './schema';
 
 export type ExtendedApiGateWayEvent = Omit<
   APIGatewayEvent,
   'queryStringParameters'
 > & {
-  queryStringParameters: GetPolicyQueryParamsSchema;
+  queryStringParameters: GetGeneratedQueryParamsSchema;
 };
 
 export interface MiddlewareRequest
