@@ -9,9 +9,9 @@ export const saveCoursePolicy = async (data: DataResponseObject) => {
     .where({ id: generatedUuid })
     .first();
 
-  return (coursePolicy: CourseAiPolicyResponse): Promise<string> => {
+  return async (coursePolicy: CourseAiPolicyResponse): Promise<string> => {
     if (!isEmpty(existingResponse)) {
-      return db('survey_responses')
+      return await db('survey_responses')
         .where({ id: generatedUuid })
         .update({
           results: JSON.stringify(coursePolicy),
@@ -22,7 +22,7 @@ export const saveCoursePolicy = async (data: DataResponseObject) => {
         .returning('id');
     }
 
-    return db('survey_responses')
+    return await db('survey_responses')
       .insert({
         id: generatedUuid,
         results: JSON.stringify(coursePolicy),

@@ -8,9 +8,9 @@
   "private": true,
   "scripts": {
     "build": "tsc --build --verbose",
-    "invoke:hook": "yarn build && sls invoke local -f webhook",
-    "deploy:hook": "yarn build && sls deploy -f webhook",
-    "debug:hook": "yarn deploy:hook && sls dev -f webhook --verbose",
+    "invoke:hook": "yarn build && sls invoke local -f postPolicyWebhook",
+    "deploy:hook": "yarn build && sls deploy -f postPolicyWebhook",
+    "debug:hook": "yarn deploy:hook && sls dev -f postPolicyWebhook --verbose",
     "invoke:getPolicy": "yarn build && sls invoke local -f getPolicy",
     "deploy:getPolicy": "yarn build && sls deploy -f getPolicy",
     "debug:getPolicy": "yarn deploy:getPolicy && sls dev -f getPolicy --verbose",

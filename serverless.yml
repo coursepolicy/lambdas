@@ -21,8 +21,8 @@ provider:
     cors: true
 
 functions:
-  webhook:
-    handler: dist/src/http/hook/index.handler
+  postPolicyWebhook:
+    handler: dist/src/http/post-policy-webhook/index.handler
     events:
       - httpApi:
           path: /hook
@@ -40,11 +40,11 @@ functions:
       - httpApi:
           path: /policy
           method: put
-  generatePdf:
-    handler: dist/src/http/generate-pdf/index.handler
+  getGeneratedPdf:
+    handler: dist/src/http/get-generated-pdf/index.handler
     events:
       - httpApi:
-          path: /generate-pdf
+          path: /generated-pdf
           method: get
     timeout: 300
     memorySize: 2048
