@@ -7,7 +7,7 @@ import { ExtendedApiGateWayEvent } from './utils/types';
 import { surveyResponseMapper } from './services/survey-response-mapper';
 import { DataResponseObject } from '../../shared';
 import { createCoursePolicy } from './services/create-course-policy';
-import { saveCoursePolicy } from './services/save-survey-response';
+import { saveCoursePolicy } from './services/save-course-policy';
 
 const { SURVEY_ID, QUALTRICS_API_TOKEN } = process.env;
 

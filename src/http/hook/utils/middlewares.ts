@@ -2,7 +2,7 @@ import middy from '@middy/core';
 import { MiddlewareRequest } from './types';
 import { surveyHookRequestBodySchema } from './schema';
 
-export const validateHookBody =
+export const validateRequestBody =
   (): middy.MiddlewareFn => (request: MiddlewareRequest) => {
     try {
       request.event.parsedBody = surveyHookRequestBodySchema.parse(

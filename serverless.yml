@@ -27,11 +27,11 @@ functions:
       - httpApi:
           path: /hook
           method: post
-  response:
-    handler: dist/src/http/responses/index.handler
+  getPolicy:
+    handler: dist/src/http/get-policy/index.handler
     events:
       - httpApi:
-          path: /responses
+          path: /policy
           method: get
     timeout: 30
   updatePolicy:
