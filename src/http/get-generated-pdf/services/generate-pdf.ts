@@ -8,7 +8,11 @@ export const generatePdf = async (generatedId: string) => {
   try {
     const baseUrl = 'https://d22na4fphuot3z.cloudfront.net';
 
-    // chromium.setGraphicsMode = false;
+    await chromium.font(
+      'https://github.com/googlefonts/noto-emoji/raw/main/fonts/NotoColorEmoji.ttf'
+    );
+
+    chromium.setGraphicsMode = false;
     browser = await puppeteer.launch({
       args: chromium.args,
       defaultViewport: null,
@@ -24,8 +28,7 @@ export const generatePdf = async (generatedId: string) => {
 
     result = await page.pdf({
       printBackground: true,
-      width: 985,
-      // preferCSSPageSize: true,
+      width: 1100,
     });
 
     console.info(
@@ -48,10 +51,6 @@ export const generatePdf = async (generatedId: string) => {
     throw new Error(JSON.stringify(error));
   } finally {
     if (browser !== null) {
-      const browserPid = browser.process()?.pid;
-      if (browserPid) {
-        process.kill(browserPid);
-      }
       await browser.close();
     }
   }

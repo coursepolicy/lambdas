@@ -30,12 +30,18 @@ functions:
       - httpApi:
           path: /hook
           method: post
+          throttling:
+            burstLimit: 1000
+            rateLimit: 500
   getPolicy:
     handler: dist/src/http/get-policy/index.handler
     events:
       - httpApi:
           path: /policy
           method: get
+          throttling:
+            burstLimit: 1000
+            rateLimit: 500
     timeout: 30
   updatePolicy:
     handler: dist/src/http/update-policy/index.handler
@@ -43,6 +49,9 @@ functions:
       - httpApi:
           path: /policy
           method: put
+          throttling:
+            burstLimit: 1000
+            rateLimit: 500
   getGeneratedPdf:
     handler: dist/src/http/get-generated-pdf/index.handler
     events:
@@ -53,6 +62,6 @@ functions:
             burstLimit: 1000
             rateLimit: 500
     timeout: 180
-    memorySize: 1024
+    memorySize: 2048
     layers:
       - arn:aws:lambda:us-west-2:694509587593:layer:chromium:3

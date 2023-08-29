@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 export const updatePolicyRequestQueryParamSchema = z.object({
   id: z.string(),
+  generatedId: z.string().optional(),
 });
 
 export const updatePolicyRequestBodySchema = z.object({
