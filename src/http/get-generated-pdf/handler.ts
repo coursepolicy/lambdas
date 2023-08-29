@@ -16,6 +16,7 @@ export const getGeneratedPdf = async ({
       isBase64Encoded: true,
     };
   } catch (error) {
+    console.error(error);
     return {
       statusCode: 500,
       body: JSON.stringify({ message: error }),

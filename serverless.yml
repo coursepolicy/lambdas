@@ -14,11 +14,14 @@ provider:
   runtime: nodejs18.x
   region: us-west-2
   stage: ${opt:stage, self:custom.defaultStage}
-  websocketsApiName: survey-response-api
-  websocketsApiRouteSelectionExpression: $request.body.action
-  websocketsDescription: Course Policy AI Survey Response Websockets
   httpApi:
     cors: true
+  apiGateway:
+    binaryMediaTypes:
+      - 'application/pdf'
+    metrics: true
+  logs:
+    restApi: true
 
 functions:
   postPolicyWebhook:
@@ -46,5 +49,10 @@ functions:
       - httpApi:
           path: /generated-pdf
           method: get
-    timeout: 300
-    memorySize: 2048
+          throttling:
+            burstLimit: 1000
+            rateLimit: 500
+    timeout: 180
+    memorySize: 1024
+    layers:
+      - arn:aws:lambda:us-west-2:694509587593:layer:chromium:3

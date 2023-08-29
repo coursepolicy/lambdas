@@ -1,28 +1,60 @@
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
+import chromium from '@sparticuz/chromium';
 
 export const generatePdf = async (generatedId: string) => {
-  // const baseUrl = 'https://d22na4fphuot3z.cloudfront.net';
-  const baseUrl = 'http://localhost:3001';
+  let browser = null;
+  let result = null;
 
-  const browser = await puppeteer.launch({
-    headless: 'new',
-    defaultViewport: null,
-  });
-  const page = await browser.newPage();
+  try {
+    const baseUrl = 'https://d22na4fphuot3z.cloudfront.net';
 
-  await page.goto(`${baseUrl}/preview/${generatedId}`, {
-    waitUntil: 'networkidle0',
-  });
+    // chromium.setGraphicsMode = false;
+    browser = await puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: null,
+      executablePath: await chromium.executablePath(),
+      headless: chromium.headless,
+    });
 
-  const pdf = await page.pdf({
-    path: 'my-course-policy.pdf',
-    printBackground: true,
-    width: 985,
-    displayHeaderFooter: false,
-    preferCSSPageSize: true,
-  });
+    const page = await browser.newPage();
 
-  await browser.close();
+    await page.goto(`${baseUrl}/preview/${generatedId}`, {
+      waitUntil: 'networkidle0',
+    });
 
-  return pdf;
+    result = await page.pdf({
+      printBackground: true,
+      width: 985,
+      // preferCSSPageSize: true,
+    });
+
+    console.info(
+      'Before close **********************',
+      JSON.stringify({
+        pageInfo: {
+          url: await page.url(),
+          viewport: await page.viewport(),
+          // ... any other properties you're interested in
+        },
+        browserInfo: {
+          version: await browser.version(),
+          isConnected: browser.isConnected(),
+          // ... any other properties you're interested in
+        },
+      })
+    );
+  } catch (error) {
+    console.error(error);
+    throw new Error(JSON.stringify(error));
+  } finally {
+    if (browser !== null) {
+      const browserPid = browser.process()?.pid;
+      if (browserPid) {
+        process.kill(browserPid);
+      }
+      await browser.close();
+    }
+  }
+
+  return result;
 };

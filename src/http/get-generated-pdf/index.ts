@@ -7,7 +7,7 @@ import httpSecurityHeaders from '@middy/http-security-headers';
 import { getGeneratedPdf } from './handler';
 import { validateQueryParameters } from './utils';
 
-// GET /policy
+// GET /generated-pdf
 export const handler = middy(getGeneratedPdf)
   .before(validateQueryParameters())
   .use(httpEventNormalizer())
