@@ -1,8 +1,36 @@
-export interface DataResponseObject {
-  result: ResponseResultObject;
+export type PolicySection = {
+  [key: string]: unknown;
+  id: string | number;
+  title: string;
+  children?: PolicySections;
+  htmlContent?: string | string[];
+  miscData?: Record<string, unknown>;
+};
+
+export type PolicySections = PolicySection[];
+
+export type AiPolicy = {
+  heading: string; // Course information like title, number, instructor, etc.
+  sections: PolicySections; // Policy sections taken from qualtrics survey
+};
+
+export type AiPolicyResponse = AiPolicy & {
+  id: string | number; // Generated UUIDv4
+  updatedAt?: string;
+  createdAt: string;
+};
+
+interface UpdatedPolicy {
+  results: AiPolicy;
 }
 
-export interface ResponseResultObject {
+export type ReturningUpdatedPolicy = UpdatedPolicy[];
+
+export interface QaultricsResponse {
+  result: SurveyResponse;
+}
+
+export interface SurveyResponse {
   labels: Labels;
   values: Values;
   responseId: string;
@@ -11,7 +39,7 @@ export interface ResponseResultObject {
 }
 
 export interface Labels {
-  [index: string]: any;
+  [index: string]: unknown;
   QID8: string;
   QID15: string;
   QID22: string;
@@ -44,7 +72,7 @@ export interface Labels {
 }
 
 export interface Values {
-  [index: string]: any;
+  [index: string]: unknown;
   QID8: number;
   QID15: number;
   QID22: number;
@@ -93,6 +121,7 @@ export interface Values {
   QID19_TEXT?: string;
   QID20_TEXT?: string;
   QID25_6_TEXT?: string;
+  QID26_3_TEXT?: string[];
   QID30_TEXT: string;
   recordedDate: string;
   userLanguage: string;
@@ -122,7 +151,8 @@ interface DisplayedValues {
   QID16_10?: number[];
 }
 
-export interface GenerativeAiPolicy {
+export interface MappedSurveyResponse {
+  id: string;
   courseNumber: string; // q4_3
   courseTitle: string; // q4_4
   instructor: string; // q4_1
@@ -142,7 +172,7 @@ export interface GenerativeAiPolicy {
   academicIntegrityPolicy?: string;
   otherPolicies?: string;
   additionalNotes: string;
-  generatedAt: string;
+  createdAt: string;
 }
 
 export interface UseCases {
@@ -154,29 +184,3 @@ interface UseCaseEntry {
   label: string;
   text: string;
 }
-export interface Section {
-  [key: string]: any;
-  id: string;
-  sectionTitle: string;
-  subSections: SubSection[];
-}
-
-export interface SubSection {
-  id: string;
-  subSectionTitle: string;
-  content: string | string[];
-  miscData?: Record<string, any>;
-}
-
-export type CourseAiPolicy = Section[];
-
-export type CourseAiPolicyResponse = {
-  header: string;
-  content: CourseAiPolicy;
-};
-
-interface UpdatedPolicy {
-  results: CourseAiPolicyResponse;
-}
-
-export type ReturningUpdatedPolicy = UpdatedPolicy[];

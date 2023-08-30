@@ -5,18 +5,18 @@ import { baseUrl } from '../../shared/constants';
 import { flow, get } from 'lodash';
 import { ExtendedApiGateWayEvent } from './utils/types';
 import { surveyResponseMapper } from './services/survey-response-mapper';
-import { DataResponseObject } from '../../shared';
+import { QaultricsResponse } from '../../shared';
 import { createCoursePolicy } from './services/create-course-policy';
 import { saveCoursePolicy } from './services/save-course-policy';
 
 const { SURVEY_ID, QUALTRICS_API_TOKEN } = process.env;
 
 export const postPolicyWebhookHandler = async ({
-  parsedBody: { responseId, saveDb },
+  parsedBody: { responseId: surveyResponseId, saveDb },
 }: ExtendedApiGateWayEvent) => {
   try {
     const response = await fetch(
-      `${baseUrl}/surveys/${SURVEY_ID}/responses/${responseId}`,
+      `${baseUrl}/surveys/${SURVEY_ID}/responses/${surveyResponseId}`,
       {
         method: 'get',
         headers: {
@@ -27,9 +27,10 @@ export const postPolicyWebhookHandler = async ({
     );
 
     if (response.status !== 200) {
+      console.info('Qualtrics API call failed');
       throw new Error('Qualtrics API call failed');
     }
-    const data: DataResponseObject = await response.json();
+    const data: QaultricsResponse = await response.json();
     const generatedUuId = String(get(data, 'result.values.QID13_TEXT'));
 
     if (saveDb === false) {

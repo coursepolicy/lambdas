@@ -1,4 +1,17 @@
 import { z } from 'zod';
+import { PolicySection, PolicySections } from '../../../shared';
+
+const policySection: z.ZodSchema<PolicySection> = z
+  .object({
+    id: z.string(),
+    title: z.string(),
+    children: z.lazy(() => z.array(policySection)).optional(),
+    htmlContent: z.union([z.string(), z.array(z.string())]).optional(),
+    miscData: z.record(z.unknown()).optional(),
+  })
+  .nonstrict();
+
+const policySections: z.ZodSchema<PolicySections> = z.array(policySection);
 
 export const updatePolicyRequestQueryParamSchema = z.object({
   id: z.string(),
@@ -7,21 +20,8 @@ export const updatePolicyRequestQueryParamSchema = z.object({
 
 export const updatePolicyRequestBodySchema = z.object({
   policy: z.object({
-    header: z.string(),
-    content: z.array(
-      z.object({
-        id: z.string(),
-        sectionTitle: z.string(),
-        subSections: z.array(
-          z.object({
-            id: z.string(),
-            subSectionTitle: z.string(),
-            content: z.string().or(z.array(z.string())),
-            miscData: z.record(z.any()).optional(),
-          })
-        ),
-      })
-    ),
+    heading: z.string(),
+    sections: policySections,
   }),
 });
 

@@ -1,9 +1,9 @@
 import { db } from '../../../../data/knex';
-import { CourseAiPolicyResponse } from '../../../shared';
+import { AiPolicy } from '../../../shared';
 
 export const createNewPolicy = async (
   id: string,
-  policy: CourseAiPolicyResponse
+  policy: AiPolicy
 ): Promise<string> => {
   return db('survey_responses')
     .returning('id')

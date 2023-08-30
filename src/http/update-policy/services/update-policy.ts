@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash';
 import { db } from '../../../../data/knex';
-import { CourseAiPolicyResponse } from '../../../shared';
+import { AiPolicy } from '../../../shared';
 import { createNewPolicy } from './create-new-policy';
 
 const SAMPLE_POLICY = 'Sample_Policy_for_all';
@@ -12,7 +12,7 @@ const PolicyStatusEnum = {
 
 export const updatePolicy = async (
   id: string,
-  policy: CourseAiPolicyResponse,
+  policy: AiPolicy,
   generatedId?: string
 ): Promise<{
   id: string;

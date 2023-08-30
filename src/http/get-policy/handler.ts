@@ -7,11 +7,11 @@ export const getPolicyHandler = async ({
   queryStringParameters: { generatedId },
 }: ExtendedApiGateWayEvent) => {
   try {
-    const { results } = await longPolling(generatedId);
+    const aiPolicy = await longPolling(generatedId);
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ data: results }),
+      body: JSON.stringify({ data: aiPolicy }),
     };
   } catch (error) {
     return {
