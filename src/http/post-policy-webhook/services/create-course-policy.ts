@@ -20,7 +20,10 @@ const policyFormatter = (
           Course Instructor: ${instructor} <a target="_blank" rel="noopener noreferrer nofollow" class="editor-links" href="mailto:${email}">${email}</a>
         </p>
       </div>
-    `,
+    `
+      .replace(/\n/g, '')
+      .replace(/>(\s+)</g, '><')
+      .trim(),
     sections: courseAiPolicy,
   };
 };
@@ -41,7 +44,10 @@ export const createCoursePolicy = (
       <h3>Course Description</h3>
       <p>${response.courseDescription}</p>
     </section>
-    `,
+    `
+      .replace(/\n/g, '')
+      .replace(/>(\s+)</g, '><')
+      .trim(),
   });
   // end of courseDescriptionSubSections
 
@@ -51,12 +57,12 @@ export const createCoursePolicy = (
     id: uuidv4(),
     title: 'Introduction',
     miscData: { overallPolicy: response.overallPolicy },
-    htmlContent: `
-      <section class="policy-introduction-section">
-        <h2>1. ${response.courseNumber} Generative AI Policy</h2>
-        <p>${response.overallPolicyText}</p>
-      </section>
-    `,
+    htmlContent: `<h2>1. ${
+      response.courseNumber
+    } Generative AI Policy</h2><p>${response.overallPolicyText.trim()}</p>`
+      .replace(/\n/g, '')
+      .replace(/>(\s+)</g, '><')
+      .trim(),
   });
 
   if (response.useCases) {
@@ -64,15 +70,14 @@ export const createCoursePolicy = (
       id: uuidv4(),
       title: 'Use Cases',
       htmlContent: [
-        `<div>
-          <h3>Reasonable Use Cases ✅</h3>
+        `<h3>Reasonable Use Cases ✅</h3>
           ${
             response.useCases.reasonable.length
               ? `
             ${response.useCases.reasonable.reduce(
               (acc, entry) =>
                 (acc += `
-                <strong>${entry.label}</strong>
+                <p><strong>${entry.label}</strong></p>
                 <ul>
                   <li>
                     
@@ -84,9 +89,11 @@ export const createCoursePolicy = (
             )}
           `
               : '<p>None</p>'
-          }
-        </div>`,
-        `<div>
+          }`
+          .replace(/\n/g, '')
+          .replace(/>(\s+)</g, '><')
+          .trim(),
+        `
           <h3>Unreasonable Use Cases ❌</h3>
           ${
             response.useCases.unreasonable.length
@@ -94,7 +101,7 @@ export const createCoursePolicy = (
             ${response.useCases.unreasonable.reduce(
               (acc, entry) =>
                 (acc += `
-                <strong>${entry.label}</strong>
+                <p><strong>${entry.label}</strong></p>
                 <ul>
                   <li>
                     <p>${entry.text}</p>
@@ -105,8 +112,10 @@ export const createCoursePolicy = (
             )}
           `
               : '<p>None</p>'
-          }
-        </div>`,
+          }`
+          .replace(/\n/g, '')
+          .replace(/>(\s+)</g, '><')
+          .trim(),
       ],
     });
   }
@@ -115,12 +124,11 @@ export const createCoursePolicy = (
     generativeAiPolicySubSections.push({
       id: uuidv4(),
       title: 'Assignment Specific AI Policies',
-      htmlContent: `
-        <section class="policy-assignment-specific-section">
-          <h3>Assignment/Project Specific AI Policies</h3>
-          <p>${response.specificPoliciesForAssignments}</p>
-        </section>
-      `,
+      htmlContent:
+        `<h3>Assignment/Project Specific AI Policies</h3><p>${response.specificPoliciesForAssignments}</p>`
+          .replace(/\n/g, '')
+          .replace(/>(\s+)</g, '><')
+          .trim(),
     });
   }
 
@@ -128,9 +136,8 @@ export const createCoursePolicy = (
     generativeAiPolicySubSections.push({
       id: uuidv4(),
       title: 'Ethical Guidelines',
-      htmlContent: `
-      <section class="policy-ehtical-guidelines-section">
-        <h3>Ethical guidelines for using generative AI for this course:</h3>
+      htmlContent:
+        `<h3>Ethical guidelines for using generative AI for this course:</h3>
         <ul>
           ${response.ethicalGuidelines.reduce(
             (acc, text) => (acc += `<li>${text}</li>`),
@@ -142,8 +149,10 @@ export const createCoursePolicy = (
               : ''
           }
         </ul>
-      </section>
-      `,
+      `
+          .replace(/\n/g, '')
+          .replace(/>(\s+)</g, '><')
+          .trim(),
     });
   }
 
@@ -151,9 +160,7 @@ export const createCoursePolicy = (
     generativeAiPolicySubSections.push({
       id: uuidv4(),
       title: 'Declaration',
-      htmlContent: `
-        <section class="policy-declaration-section">
-          <h3>How to declare the use of generative tools:</h3>
+      htmlContent: `<h3>How to declare the use of generative tools:</h3>
           <ul>
             ${response.generativeAiToolDeclarations.reduce(
               (acc, text) => (acc += `<li>${text}</li>`),
@@ -164,9 +171,10 @@ export const createCoursePolicy = (
                 ? `<li>${response.additionalGenerativeAiToolsDeclarations}</li>`
                 : ''
             }
-          </ul>
-        </section>
-      `,
+          </ul>`
+        .replace(/\n/g, '')
+        .replace(/>(\s+)</g, '><')
+        .trim(),
     });
   }
 
@@ -174,7 +182,6 @@ export const createCoursePolicy = (
     id: uuidv4(),
     title: 'Additional Notes',
     htmlContent: `
-     <section class="policy-notes-section">
         <h3>Additional Notes</h3>
         ${
           response.additionalNotes
@@ -184,9 +191,10 @@ export const createCoursePolicy = (
         </ul>
         `
             : ''
-        }
-      </section>
-    `,
+        }`
+      .replace(/\n/g, '')
+      .replace(/>(\s+)</g, '><')
+      .trim(),
   });
 
   // end of generativeAiPolicySubSections
@@ -195,21 +203,18 @@ export const createCoursePolicy = (
   additionalPoliciesSubSections.push({
     id: uuidv4(),
     title: 'Introduction',
-    htmlContent: `
-      <section class="additional-policies-introduction-section">
-        <h2>2. Additional Policies</h2>
-        <p>${response.additionalPolicyText}</p>
-      </section>
-    `,
+    htmlContent:
+      `<h2>2. Additional Policies</h2><p>${response.additionalPolicyText}</p>`
+        .replace(/\n/g, '')
+        .replace(/>(\s+)</g, '><')
+        .trim(),
   });
 
   if (response.overallPolicy !== 'No restrictions') {
     additionalPoliciesSubSections.push({
       id: uuidv4(),
       title: 'Policy Links',
-      htmlContent: `
-        <section class="additional-policies-policy-links-section">
-            <ul>
+      htmlContent: `<ul>
               ${
                 response.campusWidePolicy
                   ? `
@@ -264,10 +269,10 @@ export const createCoursePolicy = (
               `
                   : ''
               }
-            </ul>
-          </section>
-      
-      `,
+            </ul>`
+        .replace(/\n/g, '')
+        .replace(/>(\s+)</g, '><')
+        .trim(),
     });
   }
   // end of additionalPoliciesSubSections
