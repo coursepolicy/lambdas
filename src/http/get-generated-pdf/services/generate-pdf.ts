@@ -28,7 +28,25 @@ export const generatePdf = async (generatedId: string) => {
 
     result = await page.pdf({
       printBackground: true,
-      width: 1100,
+      width: 1500,
+      preferCSSPageSize: true,
+      format: 'Letter',
+      margin: {
+        top: '0.75in',
+        right: '0.75in',
+        bottom: '0.75in',
+        left: '0.75in',
+      },
+      displayHeaderFooter: true,
+      footerTemplate: `
+            <div style="font-size:10px; margin: 0 auto; text-align: center; width: 100%;">
+                <p>created using 
+                    <a href="https://coursepolicy.ai" target="_blank" rel="noopener noreferrer nofollow">
+                        CoursePolicy.AI
+                    </a>
+                </p>
+            </div>
+        `,
     });
 
     console.info(
