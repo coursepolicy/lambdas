@@ -40,11 +40,9 @@ export const createCoursePolicy = (
     id: uuidv4(),
     title: 'Introduction',
     htmlContent: `
-    <section class="course-description-introduction-section">
-      <h3>Course Description</h3>
-      <p>${response.courseDescription}</p>
-    </section>
-    `
+        <h3>Course Description</h3>
+        <p>${response.courseDescription}</p>
+      `
       .replace(/\n/g, '')
       .replace(/>(\s+)</g, '><')
       .trim(),
