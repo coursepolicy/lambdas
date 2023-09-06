@@ -9,7 +9,7 @@ import { QaultricsResponse } from '../../shared';
 import { createCoursePolicy } from './services/create-course-policy';
 import { saveCoursePolicy } from './services/save-course-policy';
 
-const { SURVEY_ID, QUALTRICS_API_TOKEN, DATABASE_URL } = process.env;
+const { SURVEY_ID, QUALTRICS_API_TOKEN } = process.env;
 
 export const postPolicyWebhookHandler = async ({
   parsedBody: { responseId: surveyResponseId, saveDb },
