@@ -1,4 +1,4 @@
-export const baseUrl = 'https://sjc1.qualtrics.com/API/v3';
+export const qualtricsBaseUrl = 'https://sjc1.qualtrics.com/API/v3';
 
 export const useCaseReasonabilityMapper: {
   [index: number]: string;

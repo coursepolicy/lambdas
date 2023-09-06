@@ -9,6 +9,16 @@ export const getPolicyHandler = async ({
   try {
     const aiPolicy = await longPolling(generatedId);
 
+    if (!aiPolicy) {
+      return {
+        statusCode: 408,
+        body: JSON.stringify({
+          message:
+            'Timeout Exceeded! Failure to find the record. Please complete the survey and try again',
+        }),
+      };
+    }
+
     return {
       statusCode: 200,
       body: JSON.stringify({ data: aiPolicy }),

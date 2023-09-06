@@ -1,12 +1,22 @@
 import 'dotenv/config';
 import { Knex } from 'knex';
 
-const { DATABASE_URL } = process.env;
+const {
+  DATABASE_PASSWORD,
+  DATABASE_HOST,
+  DATABASE_PORT,
+  DATABASE_NAME,
+  DATABASE_USERNAME,
+} = process.env;
 
 const defaultConfig: Knex.Config = {
   client: 'pg',
   connection: {
-    connectionString: DATABASE_URL,
+    password: DATABASE_PASSWORD,
+    host: DATABASE_HOST,
+    port: Number(DATABASE_PORT),
+    database: DATABASE_NAME,
+    user: DATABASE_USERNAME,
     ssl: { rejectUnauthorized: false },
   },
   migrations: {

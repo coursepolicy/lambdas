@@ -1,13 +1,10 @@
 import { isEmpty } from 'lodash';
 import { db } from '../../../../data/knex';
-import { AiPolicyResponse } from '../../../shared';
 
 const MAX_TIME_ALOTTED = 15_000;
 const TIME_TO_WAIT = 1_000;
 
-export const longPolling = async (
-  generatedId: string
-): Promise<AiPolicyResponse> => {
+export const longPolling = async (generatedId: string) => {
   const startTime = Date.now();
 
   let timeoutExceeded = false;
@@ -35,7 +32,5 @@ export const longPolling = async (
     await new Promise((resolve) => setTimeout(resolve, TIME_TO_WAIT));
   }
 
-  throw new Error(
-    'Timeout Exceeded! Failure to find the record. Please complete the survey and try again'
-  );
+  return timeoutExceeded;
 };

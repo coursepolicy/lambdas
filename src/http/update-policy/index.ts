@@ -11,7 +11,7 @@ import {
   validateRequestQueryParam,
 } from './utils/middlewares';
 
-// PUT /update-policy
+// POST /update-policy
 export const handler = middy(updatePolicyHandler)
   .before(parseJsonBody())
   .before(validateRequestBodySchema())

@@ -1,13 +1,17 @@
 app: course-policy-ai
 plugins:
   - serverless-offline
-
+  - serverless-plugin-utils
 org: coursepolicy
 service: core
-frameworkVersion: '3'
 
+frameworkVersion: '3'
 custom:
+  stage: ${opt:stage, self:provider.stage}
   defaultStage: staging
+  # ssm: ${ssm:/aws/reference/secretsmanager/
+  #   ${opt:stage, self:provider.stage}
+  #   /course-policy-ai/envs~true}
 
 provider:
   name: aws
@@ -22,6 +26,7 @@ provider:
     metrics: true
   logs:
     restApi: true
+  environment: ${file(./serverless/environment_variables.json):${self:custom.stage}}
 
 functions:
   postPolicyWebhook:
@@ -42,7 +47,7 @@ functions:
     events:
       - httpApi:
           path: /policy
-          method: put
+          method: post
   getGeneratedPdf:
     handler: dist/src/http/get-generated-pdf/index.handler
     events:
@@ -52,4 +57,4 @@ functions:
     timeout: 180
     memorySize: 2048
     layers:
-      - arn:aws:lambda:us-west-2:694509587593:layer:chromium:3
+      - arn:aws:lambda:us-west-2:${ternary( ${self:custom.stage}, production, 208733872559, 694509587593)}:layer:chromium:${ternary( ${self:custom.stage}, production, 1, 3)}

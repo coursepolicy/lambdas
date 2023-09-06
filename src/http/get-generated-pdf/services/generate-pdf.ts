@@ -6,7 +6,7 @@ export const generatePdf = async (generatedId: string) => {
   let result = null;
 
   try {
-    const baseUrl = 'https://d22na4fphuot3z.cloudfront.net';
+    const baseUrl = process.env.CORE_BASE_URL;
 
     await chromium.font(
       'https://github.com/googlefonts/noto-emoji/raw/main/fonts/NotoColorEmoji.ttf'
@@ -28,7 +28,7 @@ export const generatePdf = async (generatedId: string) => {
 
     result = await page.pdf({
       printBackground: true,
-      width: 1500,
+      width: 1000,
       preferCSSPageSize: true,
       format: 'Letter',
       margin: {

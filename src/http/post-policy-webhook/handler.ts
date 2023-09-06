@@ -1,7 +1,7 @@
 import 'dotenv/config';
 
 import { db } from '../../../data/knex';
-import { baseUrl } from '../../shared/constants';
+import { qualtricsBaseUrl } from '../../shared/constants';
 import { flow, get } from 'lodash';
 import { ExtendedApiGateWayEvent } from './utils/types';
 import { surveyResponseMapper } from './services/survey-response-mapper';
@@ -9,14 +9,21 @@ import { QaultricsResponse } from '../../shared';
 import { createCoursePolicy } from './services/create-course-policy';
 import { saveCoursePolicy } from './services/save-course-policy';
 
-const { SURVEY_ID, QUALTRICS_API_TOKEN } = process.env;
+const { SURVEY_ID, QUALTRICS_API_TOKEN, DATABASE_URL } = process.env;
 
 export const postPolicyWebhookHandler = async ({
   parsedBody: { responseId: surveyResponseId, saveDb },
 }: ExtendedApiGateWayEvent) => {
   try {
+    console.info({
+      message: 'Qualtrics Webhook',
+      surveyId: SURVEY_ID,
+      QUALTRICS_API_TOKEN: QUALTRICS_API_TOKEN?.length,
+      responseId: surveyResponseId,
+    });
+
     const response = await fetch(
-      `${baseUrl}/surveys/${SURVEY_ID}/responses/${surveyResponseId}`,
+      `${qualtricsBaseUrl}/surveys/${SURVEY_ID}/responses/${surveyResponseId}`,
       {
         method: 'get',
         headers: {
@@ -27,7 +34,12 @@ export const postPolicyWebhookHandler = async ({
     );
 
     if (response.status !== 200) {
-      console.info('Qualtrics API call failed');
+      console.error({
+        message: 'Qualtrics API call failed',
+        surveyId: SURVEY_ID,
+        QUALTRICS_API_TOKEN: QUALTRICS_API_TOKEN?.length,
+        responseId: surveyResponseId,
+      });
       throw new Error('Qualtrics API call failed');
     }
     const data: QaultricsResponse = await response.json();
