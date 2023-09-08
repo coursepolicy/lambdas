@@ -40,9 +40,20 @@ Staging: Must have a PR and be merged to `main`. That will trigger a staging dep
 
 Production: Triggered via github actions.
 
+## Testing
+Every unit test is written in the same folder with the function it's testing. 
+
+Test environment variables live in `config/testEnvironments.ts`
+
+```bash
+yarn test
+```
+
 ## ENV
 
 ```
+# .env.example
+
 QUALTRICS_API_TOKEN=tolken
 SURVEY_ID=sampleSurveyId
 DATABASE_URL=pg:connection:string
