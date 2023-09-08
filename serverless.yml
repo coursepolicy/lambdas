@@ -9,9 +9,16 @@ frameworkVersion: '3'
 custom:
   stage: ${opt:stage, self:provider.stage}
   defaultStage: staging
-  # ssm: ${ssm:/aws/reference/secretsmanager/
-  #   ${opt:stage, self:provider.stage}
-  #   /course-policy-ai/envs~true}
+  ssm:
+    QUALTRICS_API_TOKEN: ${ssm:qualtrics-api-token}
+    SURVEY_ID: ${ssm:survey-id}
+    DATABASE_URL: ${ssm:db-url}
+    CORE_BASE_URL: ${ssm:core-base-url}
+    DATABASE_PASSWORD: ${ssm:survey-db-password}
+    DATABASE_USERNAME: ${ssm:survey-db-username}
+    DATABASE_NAME: ${ssm:survey-db-name}
+    DATABASE_HOST: ${ssm:survey-db-host}
+    DATABASE_PORT: ${ssm:survey-db-port}
 
 provider:
   name: aws
@@ -26,7 +33,7 @@ provider:
     metrics: true
   logs:
     restApi: true
-  environment: ${file(./serverless/environment_variables.json):${self:custom.stage}}
+  environment: ${self:custom.ssm, file(./serverless/${opt:stage}.env.json)}
 
 functions:
   postPolicyWebhook:

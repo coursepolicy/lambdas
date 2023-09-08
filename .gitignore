@@ -78,7 +78,8 @@ web_modules/
 .env.test.local
 .env.production.local
 .env.local
-.env*
+.env.production
+.env.staging
 .env.offline
 
 # parcel-bundler cache (https://parceljs.org/)
@@ -131,4 +132,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-serverless/environment_variables.json
+serverless/production.env.json
+serverless/staging.env.json

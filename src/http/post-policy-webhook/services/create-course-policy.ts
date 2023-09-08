@@ -208,6 +208,7 @@ export const createCoursePolicy = (
         .trim(),
   });
 
+  // check to see if all the policy links exists and are not empty
   if (response.overallPolicy !== 'No restrictions') {
     additionalPoliciesSubSections.push({
       id: uuidv4(),
@@ -216,7 +217,6 @@ export const createCoursePolicy = (
               ${
                 response.campusWidePolicy
                   ? `
-                
                 <li>
                 ${
                   response.campusWidePolicy.length
@@ -243,7 +243,6 @@ export const createCoursePolicy = (
               ${
                 response.academicIntegrityPolicy
                   ? `
-                  
                   <li>
                   ${
                     response.academicIntegrityPolicy.length

@@ -32,5 +32,5 @@ export const longPolling = async (generatedId: string) => {
     await new Promise((resolve) => setTimeout(resolve, TIME_TO_WAIT));
   }
 
-  return timeoutExceeded;
+  return false;
 };
