@@ -29,7 +29,16 @@ git clone <this repo>
 cd lambdas
 yarn install
 yarn offline
+
 ```
+
+### Deployment
+
+This repository uses the serverless framework for deployment.
+
+Staging: Must have a PR and be merged to `main`. That will trigger a staging deployment.
+
+Production: Triggered via github actions.
 
 ## ENV
 
