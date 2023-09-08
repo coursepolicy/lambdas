@@ -40,6 +40,6 @@ jobs:
         with:
           args: deploy
 
-      - name: Deploy app to staging
-        run: |
-          yarn deploy -s staging
+      # - name: Deploy app to staging
+      #   run: |
+      #     yarn deploy -s staging
