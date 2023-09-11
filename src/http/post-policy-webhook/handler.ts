@@ -43,11 +43,11 @@ export const postPolicyWebhookHandler = async ({
       throw new Error('Qualtrics API call failed');
     }
     const data: QaultricsResponse = await response.json();
-    const generatedUuId = String(get(data, 'result.values.QID13_TEXT'));
+    const generatedUlid = String(get(data, 'result.values.QID13_TEXT'));
 
     if (saveDb === false) {
       const queriedResponse = await db('survey_responses')
-        .where({ id: generatedUuId })
+        .where({ id: generatedUlid })
         .first();
 
       return {
@@ -75,7 +75,7 @@ export const postPolicyWebhookHandler = async ({
       statusCode: 200,
       body: JSON.stringify({
         message: 'DB Insert Success',
-        generatedId: generatedUuId,
+        generatedId: generatedUlid,
       }),
     };
   } catch (error) {

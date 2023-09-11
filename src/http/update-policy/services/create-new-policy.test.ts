@@ -20,11 +20,11 @@ describe('createNewPolicy', () => {
   it('should insert a new policy and return its ID', async () => {
     const mockId = '1234';
     const mockPolicy = {
-      id: 'Generated UUIDv4',
+      id: 'Generated ULID',
       heading: 'Course information like title, number, instructor, etc.',
       sections: [
         {
-          id: 'Generated UUIDv4',
+          id: 'Generated ULID',
           title: 'Section heading',
         },
       ],
