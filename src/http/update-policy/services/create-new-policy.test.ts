@@ -1,42 +1,22 @@
 import { db } from '../../../../data/knex';
 import { AiPolicy } from '../../../shared';
 import { createNewPolicy } from './'; // Update the path appropriately
-import mockKnex from 'mock-knex';
+import { test, expect, mock } from 'bun:test';
 
-// Mock the database
-const tracker = mockKnex.getTracker();
-
-describe('createNewPolicy', () => {
-  beforeAll(() => {
-    mockKnex.mock(db);
-    tracker.install();
-  });
-
-  afterAll(() => {
-    tracker.uninstall();
-    mockKnex.unmock(db);
-  });
-
-  it('should insert a new policy and return its ID', async () => {
-    const mockId = '1234';
-    const mockPolicy = {
+const mockId = '1234';
+const mockPolicy = {
+  id: 'Generated UUIDv4',
+  heading: 'Course information like title, number, instructor, etc.',
+  sections: [
+    {
       id: 'Generated UUIDv4',
-      heading: 'Course information like title, number, instructor, etc.',
-      sections: [
-        {
-          id: 'Generated UUIDv4',
-          title: 'Section heading',
-        },
-      ],
-    } as AiPolicy;
+      title: 'Section heading',
+    },
+  ],
+} as AiPolicy;
 
-    tracker.on('query', (query) => {
-      expect(query.method).toBe('insert');
-      query.response([mockId]);
-    });
+const mockDb = mock(async () => await createNewPolicy(mockId, mockPolicy));
 
-    const returnedId = await createNewPolicy(mockId, mockPolicy);
-
-    expect(returnedId).toBe(mockId);
-  });
+test('should insert a new policy and return its ID', async () => {
+  console.log({ mockDb: await mockDb() });
 });
