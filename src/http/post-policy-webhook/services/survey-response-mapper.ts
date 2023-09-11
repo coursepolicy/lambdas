@@ -133,7 +133,7 @@ export const surveyResponseMapper = ({
     createdAt: endDate,
   };
 
-  // save button -> uuid or link sent to email
+  // save button -> ulid or link sent to email
 
   if (generativeAiPolicyMapper[QID15] === 'No restrictions') {
     return {
