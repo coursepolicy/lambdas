@@ -131,7 +131,7 @@ export interface Values {
   distributionChannel: string;
 }
 
-interface DisplayedValues {
+export interface DisplayedValues {
   QID8: number[];
   QID15: number[];
   QID22: number[];

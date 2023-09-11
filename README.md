@@ -32,6 +32,14 @@ yarn offline
 
 ```
 
+### Testing
+
+Each tests live next to the same function its testing.
+
+```
+yarn test
+```
+
 ### Deployment
 
 This repository uses the serverless framework for deployment.

@@ -22,7 +22,7 @@
     "debug:pdf": "yarn deploy:pdf && sls dev -f getGeneratedPdf --verbose",
     "offline": "yarn build && sls offline",
     "deploy": "yarn build && sls deploy",
-    "test": "jest --verbose --coverage"
+    "test": "jest"
   },
   "devDependencies": {
     "@sparticuz/chromium": "116",

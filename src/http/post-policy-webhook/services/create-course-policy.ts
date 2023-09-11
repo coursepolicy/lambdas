@@ -29,7 +29,8 @@ const policyFormatter = (
 };
 
 export const createCoursePolicy = (
-  response: MappedSurveyResponse
+  response: MappedSurveyResponse,
+  test = false
 ): AiPolicy => {
   const courseDescriptionSubSections: PolicySection[] = [];
   const generativeAiPolicySubSections: PolicySection[] = [];
@@ -37,7 +38,7 @@ export const createCoursePolicy = (
 
   // courseDescriptionSubSections
   courseDescriptionSubSections.push({
-    id: uuidv4(),
+    id: test ? 'mockId' : uuidv4(),
     title: 'Introduction',
     htmlContent: `
         <h3>Course Description</h3>
@@ -52,7 +53,7 @@ export const createCoursePolicy = (
   // generativeAiPolicySubSections
 
   generativeAiPolicySubSections.push({
-    id: uuidv4(),
+    id: test ? 'mockId' : uuidv4(),
     title: 'Introduction',
     miscData: { overallPolicy: response.overallPolicy },
     htmlContent: `<h2>1. ${
@@ -65,7 +66,7 @@ export const createCoursePolicy = (
 
   if (response.useCases) {
     generativeAiPolicySubSections.push({
-      id: uuidv4(),
+      id: test ? 'mockId' : uuidv4(),
       title: 'Use Cases',
       htmlContent: [
         `<h3>Reasonable Use Cases ✅</h3>
@@ -120,7 +121,7 @@ export const createCoursePolicy = (
 
   if (response.specificPoliciesForAssignments) {
     generativeAiPolicySubSections.push({
-      id: uuidv4(),
+      id: test ? 'mockId' : uuidv4(),
       title: 'Assignment Specific AI Policies',
       htmlContent:
         `<h3>Assignment/Project Specific AI Policies</h3><p>${response.specificPoliciesForAssignments}</p>`
@@ -132,7 +133,7 @@ export const createCoursePolicy = (
 
   if (response.ethicalGuidelines) {
     generativeAiPolicySubSections.push({
-      id: uuidv4(),
+      id: test ? 'mockId' : uuidv4(),
       title: 'Ethical Guidelines',
       htmlContent:
         `<h3>Ethical guidelines for using generative AI for this course:</h3>
@@ -156,7 +157,7 @@ export const createCoursePolicy = (
 
   if (response.generativeAiToolDeclarations) {
     generativeAiPolicySubSections.push({
-      id: uuidv4(),
+      id: test ? 'mockId' : uuidv4(),
       title: 'Declaration',
       htmlContent: `<h3>How to declare the use of generative tools:</h3>
           <ul>
@@ -177,7 +178,7 @@ export const createCoursePolicy = (
   }
 
   generativeAiPolicySubSections.push({
-    id: uuidv4(),
+    id: test ? 'mockId' : uuidv4(),
     title: 'Additional Notes',
     htmlContent: `
         <h3>Additional Notes</h3>
@@ -199,7 +200,7 @@ export const createCoursePolicy = (
 
   // additionalPoliciesSubSections
   additionalPoliciesSubSections.push({
-    id: uuidv4(),
+    id: test ? 'mockId' : uuidv4(),
     title: 'Introduction',
     htmlContent:
       `<h2>2. Additional Policies</h2><p>${response.additionalPolicyText}</p>`
@@ -211,7 +212,7 @@ export const createCoursePolicy = (
   // check to see if all the policy links exists and are not empty
   if (response.overallPolicy !== 'No restrictions') {
     additionalPoliciesSubSections.push({
-      id: uuidv4(),
+      id: test ? 'mockId' : uuidv4(),
       title: 'Policy Links',
       htmlContent: `<ul>
               ${
@@ -278,17 +279,17 @@ export const createCoursePolicy = (
     [
       {
         // section
-        id: uuidv4(),
+        id: test ? 'mockId' : uuidv4(),
         title: 'Course Description',
         children: courseDescriptionSubSections,
       },
       {
-        id: uuidv4(),
+        id: test ? 'mockId' : uuidv4(),
         title: 'Generative AI Policy',
         children: generativeAiPolicySubSections,
       },
       {
-        id: uuidv4(),
+        id: test ? 'mockId' : uuidv4(),
         title: 'Additional Policies',
         children: additionalPoliciesSubSections,
       },

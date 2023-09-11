@@ -4,7 +4,10 @@ import { db } from '../../../../data/knex';
 const MAX_TIME_ALOTTED = 15_000;
 const TIME_TO_WAIT = 1_000;
 
-export const longPolling = async (generatedId: string) => {
+export const longPolling = async (
+  generatedId: string,
+  ttl = MAX_TIME_ALOTTED
+) => {
   const startTime = Date.now();
 
   let timeoutExceeded = false;
@@ -25,7 +28,7 @@ export const longPolling = async (generatedId: string) => {
       };
     }
 
-    if (Date.now() - startTime > MAX_TIME_ALOTTED) {
+    if (Date.now() - startTime > ttl) {
       timeoutExceeded = true;
     }
 
