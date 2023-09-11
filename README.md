@@ -32,14 +32,6 @@ yarn offline
 
 ```
 
-### Testing
-
-Each tests live next to the same function its testing.
-
-```
-yarn test
-```
-
 ### Deployment
 
 This repository uses the serverless framework for deployment.
@@ -51,7 +43,7 @@ Production: Triggered via github actions.
 ## Testing
 Every unit test is written in the same folder with the function it's testing. 
 
-Test environment variables live in `config/testEnvironments.ts`
+Test environment variables live in `test/testEnvironments.ts`
 
 ```bash
 yarn test
