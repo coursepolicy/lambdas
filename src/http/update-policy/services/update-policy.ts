@@ -3,12 +3,14 @@ import { db } from '../../../../data/knex';
 import { AiPolicy } from '../../../shared';
 import { createNewPolicy } from './create-new-policy';
 
-const SAMPLE_POLICY = 'Sample_Policy_for_all';
-const PolicyStatusEnum = {
+export const SAMPLE_POLICY = 'Sample_Policy_for_all';
+export const PolicyStatusEnum = {
   UPDATED: 'UPDATED',
   INSERTED: 'INSERTED',
   NONE: 'NONE',
 } as const;
+
+type PolicyStatus = (typeof PolicyStatusEnum)[keyof typeof PolicyStatusEnum];
 
 export const updatePolicy = async (
   id: string,
@@ -16,7 +18,7 @@ export const updatePolicy = async (
   generatedId?: string
 ): Promise<{
   id: string;
-  policyStatus: (typeof PolicyStatusEnum)[keyof typeof PolicyStatusEnum];
+  policyStatus: PolicyStatus;
 }> => {
   if (generatedId && id === SAMPLE_POLICY) {
     const foundPolicyBygeneratedId = await db('survey_responses')
@@ -35,8 +37,8 @@ export const updatePolicy = async (
       id: generatedId,
       policyStatus: 'INSERTED',
     });
-    await createNewPolicy(generatedId, policy);
-    return { id: generatedId, policyStatus: 'INSERTED' };
+    const [createdId] = await createNewPolicy(generatedId, policy);
+    return { id: createdId, policyStatus: 'INSERTED' };
   }
 
   const foundPolicyByid = await db('survey_responses').where({ id }).first();
