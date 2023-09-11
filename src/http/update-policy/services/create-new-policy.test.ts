@@ -35,7 +35,7 @@ describe('createNewPolicy', () => {
       query.response([mockId]);
     });
 
-    const returnedId = await createNewPolicy(mockId, mockPolicy);
+    const [returnedId] = await createNewPolicy(mockId, mockPolicy);
 
     expect(returnedId).toBe(mockId);
   });

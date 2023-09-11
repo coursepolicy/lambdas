@@ -35,8 +35,8 @@ export const updatePolicy = async (
       id: generatedId,
       policyStatus: 'INSERTED',
     });
-    await createNewPolicy(generatedId, policy);
-    return { id: generatedId, policyStatus: 'INSERTED' };
+    const [createdId] = await createNewPolicy(generatedId, policy);
+    return { id: createdId, policyStatus: 'INSERTED' };
   }
 
   const foundPolicyByid = await db('survey_responses').where({ id }).first();

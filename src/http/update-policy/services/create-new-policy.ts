@@ -4,7 +4,7 @@ import { AiPolicy } from '../../../shared';
 export const createNewPolicy = async (
   id: string,
   policy: AiPolicy
-): Promise<string> => {
+): Promise<string[]> => {
   return db('survey_responses')
     .returning('id')
     .insert({
