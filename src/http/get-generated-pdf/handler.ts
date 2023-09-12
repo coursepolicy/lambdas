@@ -2,7 +2,6 @@ import 'dotenv/config';
 import { generatePdf } from './services';
 import { ExtendedApiGateWayEvent } from './utils';
 
-// TODO - make this similar to update policy handler
 export const getGeneratedPdf = async ({
   queryStringParameters: { generatedId },
 }: ExtendedApiGateWayEvent) => {

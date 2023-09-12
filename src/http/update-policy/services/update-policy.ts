@@ -20,12 +20,15 @@ export const updatePolicy = async (
   id: string;
   policyStatus: PolicyStatus;
 }> => {
-  if (generatedId && id === SAMPLE_POLICY) {
+  const samplePolicy = generatedId && id === SAMPLE_POLICY;
+
+  if (samplePolicy) {
     const foundPolicyBygeneratedId = await db('survey_responses')
       .where({ id: generatedId })
       .first();
+    const samplePolicyAlreadyExists = !isEmpty(foundPolicyBygeneratedId);
 
-    if (!isEmpty(foundPolicyBygeneratedId)) {
+    if (samplePolicyAlreadyExists) {
       console.info('Policy already exists... generatedId was not inserted', {
         id: generatedId,
         policyStatus: 'NONE',

@@ -42,7 +42,7 @@ describe('longPolling', () => {
 
   it('should return false if MAX_TIME_ALOTTED is exceeded', async () => {
     tracker.on('query', (query) => {
-      query.response(null); // Always return null
+      query.response(null);
     });
 
     const resultPromise = longPolling('someGeneratedId', 1_000);

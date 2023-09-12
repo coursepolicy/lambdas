@@ -56,12 +56,10 @@ export const generatePdf = async (generatedId: string) => {
         pageInfo: {
           url: await page.url(),
           viewport: await page.viewport(),
-          // ... any other properties you're interested in
         },
         browserInfo: {
           version: await browser.version(),
           isConnected: browser.isConnected(),
-          // ... any other properties you're interested in
         },
       })
     );
