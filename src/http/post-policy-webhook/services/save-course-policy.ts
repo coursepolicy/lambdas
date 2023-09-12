@@ -10,8 +10,11 @@ export const saveCoursePolicy = async (data: QaultricsResponse) => {
     .first();
 
   return async (coursePolicy: AiPolicy): Promise<string> => {
-    if (!isEmpty(existingResponse)) {
-      return await db('survey_responses')
+    const alreadyExists = !isEmpty(existingResponse);
+    let aiPolicy;
+
+    if (alreadyExists) {
+      aiPolicy = await db('survey_responses')
         .where({ id: generatedUlid })
         .update({
           results: JSON.stringify(coursePolicy),
@@ -20,17 +23,23 @@ export const saveCoursePolicy = async (data: QaultricsResponse) => {
           updated_at: db.fn.now(),
         })
         .returning('id');
+    } else {
+      aiPolicy = await db('survey_responses')
+        .insert({
+          id: generatedUlid,
+          results: JSON.stringify(coursePolicy),
+          raw_response: JSON.stringify(data),
+          response_id: result.responseId,
+          updated_at: db.fn.now(),
+          created_at: db.fn.now(),
+        })
+        .returning('id');
     }
 
-    return await db('survey_responses')
-      .insert({
-        id: generatedUlid,
-        results: JSON.stringify(coursePolicy),
-        raw_response: JSON.stringify(data),
-        response_id: result.responseId,
-        updated_at: db.fn.now(),
-        created_at: db.fn.now(),
-      })
-      .returning('id');
+    if (isEmpty(aiPolicy)) {
+      throw new Error('Failed to save policy');
+    }
+
+    return aiPolicy[0].id;
   };
 };

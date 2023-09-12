@@ -10,11 +10,13 @@ export const getPolicyHandler = async ({
     const aiPolicy = await longPolling(generatedId);
 
     if (!aiPolicy) {
+      const errorMessage =
+        'Timeout Exceeded! Failure to find the record. Please complete the survey and try again';
+      console.error(errorMessage);
       return {
         statusCode: 408,
         body: JSON.stringify({
-          message:
-            'Timeout Exceeded! Failure to find the record. Please complete the survey and try again',
+          message: errorMessage,
         }),
       };
     }
@@ -24,6 +26,7 @@ export const getPolicyHandler = async ({
       body: JSON.stringify({ data: aiPolicy }),
     };
   } catch (error) {
+    console.error(error);
     return {
       statusCode: 500,
       body: JSON.stringify({ message: error }),
