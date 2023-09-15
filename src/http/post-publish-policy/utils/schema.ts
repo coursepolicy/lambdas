@@ -4,7 +4,7 @@ import { policySections } from '../../../shared';
 export const requestBodySchema = z.object({
   publishId: z.string(),
   policyId: z.string(),
-  aiPolicy: z.object({
+  policy: z.object({
     heading: z.string(),
     sections: policySections,
   }),

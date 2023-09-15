@@ -8,8 +8,19 @@ export const getPolicyHandler = async ({
 }: ExtendedApiGateWayEvent) => {
   try {
     const aiPolicy = await db('publish_policies')
-      .where({ publish_id: publishId })
+      .where({ id: publishId })
       .first();
+
+    if (!aiPolicy) {
+      const errorMessage = 'DB failure';
+      console.error(errorMessage);
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          message: errorMessage,
+        }),
+      };
+    }
 
     return {
       statusCode: 200,
