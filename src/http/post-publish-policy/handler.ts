@@ -11,6 +11,21 @@ export const postPublishPolicyHandler = async ({
       .first();
 
     if (!exists) {
+      const policyExists = await db('survey_responses')
+        .where({ id: policyId })
+        .first();
+
+      if (!policyExists) {
+        const errorMessage = 'Policy does not exist';
+        console.error(errorMessage);
+        return {
+          statusCode: 400,
+          body: JSON.stringify({
+            message: errorMessage,
+          }),
+        };
+      }
+
       await db('publish_policies').insert({
         id: publishId,
         ai_policy: policy,
