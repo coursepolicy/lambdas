@@ -23,6 +23,7 @@ export const longPolling = async (
       return {
         ...results,
         id: data.id,
+        publishId: data.publish_id,
         updatedAt: data.updated_at,
         createdAt: data.created_at,
       };
