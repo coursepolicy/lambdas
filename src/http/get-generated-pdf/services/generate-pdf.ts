@@ -21,26 +21,17 @@ export const generatePdf = async (generatedId: string) => {
     });
 
     const page = await browser.newPage();
-    console.info('hello', `${baseUrl}/preview/${generatedId}`);
-
     await page.goto(`${baseUrl}/preview/${generatedId}`, {
-      waitUntil: 'networkidle0',
+      waitUntil: 'networkidle2',
     });
 
     result = await page.pdf({
       printBackground: true,
-      width: 1000,
       preferCSSPageSize: true,
-      format: 'Letter',
-      margin: {
-        top: '0.75in',
-        right: '0.75in',
-        bottom: '0.75in',
-        left: '0.75in',
-      },
+      format: 'letter',
       displayHeaderFooter: true,
       footerTemplate: `
-            <div style="font-size:10px; margin: 0 auto; text-align: center; width: 100%;">
+            <div style="font-size:10px; margin: 0 auto; padding: 0; text-align: center; width: 100%;">
                 <p>created using 
                     <a href="https://coursepolicy.ai" target="_blank" rel="noopener noreferrer nofollow">
                         CoursePolicy.AI
@@ -48,6 +39,12 @@ export const generatePdf = async (generatedId: string) => {
                 </p>
             </div>
         `,
+      scale: 0.85,
+      width: 'letter',
+      height: 'letter',
+      margin: {
+        bottom: '15mm',
+      },
     });
 
     console.info(
