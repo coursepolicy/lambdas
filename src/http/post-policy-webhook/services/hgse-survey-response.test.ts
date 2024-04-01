@@ -1,12 +1,12 @@
-import { surveyResponseMapper } from './survey-response-mapper'; // Update with the correct path
+import {hgseSurveyResponseMapper} from "./hgse-survey-response-mapper"; // Update with the correct path
 import {
   DisplayedValues,
   Labels,
   SurveyResponse,
   Values,
-} from '../../../shared'; // Update with the correct path
+} from '../../../shared';
 
-describe('surveyResponseMapper', () => {
+describe('hgseSurveyResponseMapper', () => {
   it('should match the snapshot for a given response', () => {
     const mockLabels: Labels = {
       QID8: 'SomeQID8',
@@ -20,7 +20,7 @@ describe('surveyResponseMapper', () => {
       QID4_DO: ['Action1', 'Action2'],
       QID8_DO: ['Response1', 'Response2'],
       QID12_DO: ['ResponseA', 'ResponseB'],
-      QID15_DO: ['Reasonable', 'Not Reasonable'],
+      QID15_DO: ['Acceptable', 'Not NotAcceptable'],
       QID16_DO: ['grammar check: Test', 'concept learning: Test'],
       QID22_DO: ['Option1', 'Option2'],
       QID24_DO: ['OptionA', 'OptionB'],
@@ -54,6 +54,7 @@ describe('surveyResponseMapper', () => {
       endDate: '2023-09-08',
       QID12_DO: ['ResponseValueA', 'ResponseValueB'],
       QID15_DO: ['ReasonableValue', 'NotReasonableValue'],
+      QID16_DO: ['Label:AcceptableValue', 'Label:NotAcceptableValue'],
       QID22_DO: ['OptionValue1', 'OptionValue2'],
       QID24_DO: ['OptionValueA', 'OptionValueB'],
       QID25_DO: ['GuidelineValueA', 'GuidelineValueB'],
@@ -62,7 +63,6 @@ describe('surveyResponseMapper', () => {
       duration: 120,
       finished: 100,
       progress: 80,
-      QID3_TEXT: 'SomeCourseDescription',
       ipAddress: '192.168.1.1',
       startDate: '2023-09-01',
       QID13_TEXT: 'SomeID',
@@ -88,7 +88,7 @@ describe('surveyResponseMapper', () => {
       values: mockValues,
     };
 
-    const result = surveyResponseMapper(mockResponse);
+    const result = hgseSurveyResponseMapper(mockResponse);
 
     expect(result).toMatchSnapshot();
   });

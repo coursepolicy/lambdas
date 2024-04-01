@@ -12,8 +12,12 @@ export type PolicySections = PolicySection[];
 export type AiPolicy = {
   heading: string; // Course information like title, number, instructor, etc.
   sections: PolicySections; // Policy sections taken from qualtrics survey
+  metadata?: {
+    organization: string | null;
+  };
 };
 
+// TODO - unused
 export type AiPolicyResponse = AiPolicy & {
   id: string | number; // Generated ULID
   updatedAt?: string;
@@ -60,7 +64,7 @@ export interface Labels {
   QID4_DO: string[];
   QID8_DO: string[];
   QID12_DO: string[];
-  QID15_DO: string[];
+  QID15_DO?: string[];
   QID16_10?: string;
   QID16_DO?: string[];
   QID22_DO: string[];
@@ -102,7 +106,7 @@ export interface Values {
   QID8_DO: string[];
   endDate: string;
   QID12_DO: string[];
-  QID15_DO: string[];
+  QID15_DO?: string[];
   QID16_10?: number;
   QID16_DO?: string[];
   QID22_DO: string[];
@@ -113,7 +117,7 @@ export interface Values {
   duration: number;
   finished: number;
   progress: number;
-  QID3_TEXT: string;
+  QID3_TEXT?: string;
   ipAddress: string;
   startDate: string;
   QID13_TEXT: string;
@@ -151,17 +155,17 @@ export interface DisplayedValues {
   QID16_10?: number[];
 }
 
-export interface MappedSurveyResponse {
+export interface MappedSurveyResponse<T> {
   id: string;
   courseNumber: string; // q4_3
   courseTitle: string; // q4_4
   instructor: string; // q4_1
   email: string; // q4_2
-  courseDescription: string; // q3 text
+  courseDescription?: string; // q3 text
   overallPolicy: string; // values.QID15,
   overallPolicyText: string; // none
   additionalPolicyText: string; // q12
-  useCases?: UseCases; // q16
+  useCases?: T; // q16
   ethicalGuidelines?: string[]; // q25
   additionalGuidelines?: string; // q26
   specificPoliciesForAssignments?: string; // q17 // specific generative ai policies
@@ -178,6 +182,11 @@ export interface MappedSurveyResponse {
 export interface UseCases {
   reasonable: UseCaseEntry[];
   unreasonable: UseCaseEntry[];
+}
+
+export interface HgseUseCases {
+  acceptable: UseCaseEntry[];
+  unacceptable: UseCaseEntry[];
 }
 
 interface UseCaseEntry {

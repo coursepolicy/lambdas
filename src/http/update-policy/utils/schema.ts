@@ -10,6 +10,9 @@ export const updatePolicyRequestBodySchema = z.object({
   policy: z.object({
     heading: z.string(),
     sections: policySections,
+    metadata: z.object({
+      organization: z.string().nullable(),
+    }).optional(),
   }),
 });
 

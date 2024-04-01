@@ -6,11 +6,13 @@ import { surveyResponseMapper } from './services/survey-response-mapper';
 import { createCoursePolicy } from './services/create-course-policy';
 import { saveCoursePolicy } from './services/save-course-policy';
 import { getFullResponseData } from './services/get-full-response-data';
+import { hgseSurveyResponseMapper } from "./services/hgse-survey-response-mapper";
+import { SurveyResponse } from "../../shared";
 
 const { SURVEY_ID } = process.env;
 
 export const postPolicyWebhookHandler = async ({
-  parsedBody: { responseId: surveyResponseId },
+  parsedBody: { responseId: surveyResponseId, organization },
 }: ExtendedApiGateWayEvent) => {
   try {
     console.info({
@@ -21,9 +23,16 @@ export const postPolicyWebhookHandler = async ({
 
     const data = await getFullResponseData(surveyResponseId);
 
+    const mapper = (organization?: string) => (response: SurveyResponse) =>  {
+      if (organization === 'harvard') {
+        return hgseSurveyResponseMapper(response);
+      }
+      return surveyResponseMapper(response);
+    }
+
     const savedPolicyId = flow(
-      surveyResponseMapper,
-      createCoursePolicy,
+      mapper(organization),
+      createCoursePolicy(organization),
       await saveCoursePolicy(data)
     )(data.result);
 
@@ -42,3 +51,4 @@ export const postPolicyWebhookHandler = async ({
     };
   }
 };
+

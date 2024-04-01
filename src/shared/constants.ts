@@ -8,6 +8,14 @@ export const useCaseReasonabilityMapper: {
   3: 'Not Applicable',
 } as const;
 
+export const hgseUseCaseReasonabilityMapper: {
+  [index: number]: string;
+} = {
+  1: 'Acceptable',
+  2: 'Not Acceptable',
+  3: 'Not Applicable',
+} as const;
+
 export const useCasesMapper: {
   [index: string]: string;
 } = {
