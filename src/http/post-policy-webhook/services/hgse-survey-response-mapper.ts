@@ -1,13 +1,12 @@
 import {
-  useCaseReasonabilityMapper,
-  useCasesMapper,
+  generativeAiPolicyMapper,
+  hgseUseCaseReasonabilityMapper, HgseUseCases,
   MappedSurveyResponse,
   SurveyResponse,
-  Values,
-  UseCases,
-  generativeAiPolicyMapper,
-} from '../../../shared';
-import { toTitleCase } from '../utils/helpers';
+  useCasesMapper,
+  Values
+} from "../../../shared";
+import {toTitleCase} from "../utils/helpers";
 
 const formatUseCases = ({
   QID16_DO,
@@ -19,19 +18,19 @@ const formatUseCases = ({
   QID19_TEXT?: string;
   QID20_TEXT?: string;
   values: Values;
-}): UseCases | undefined => {
+}): HgseUseCases | undefined => {
   let useCases;
 
   if (QID16_DO) {
     useCases = QID16_DO.reduce(
-      (acc: UseCases, item: string) => {
+      (acc: HgseUseCases, item: string) => {
         let [label, text] = item.split(':');
         label = toTitleCase(label);
         text = text.trim();
 
         const key = useCasesMapper[label];
         const statusNum = values[key];
-        const status = useCaseReasonabilityMapper[Number(statusNum)];
+        const status = hgseUseCaseReasonabilityMapper[Number(statusNum)];
 
         const useCaseEntry = {
           label,
@@ -42,31 +41,32 @@ const formatUseCases = ({
           return acc;
         }
 
-        if (status === 'Reasonable') {
-          acc.reasonable.push(useCaseEntry);
+        if (status === 'Acceptable') {
+          acc.acceptable.push(useCaseEntry);
           return acc;
         }
-        if (status === 'Not Reasonable') {
-          acc.unreasonable.push(useCaseEntry);
+
+        if (status === 'Not Acceptable') {
+          acc.unacceptable.push(useCaseEntry);
           return acc;
         }
         return acc;
       },
       {
-        reasonable: [],
-        unreasonable: [],
+        acceptable: [],
+        unacceptable: [],
       }
     );
 
     if (QID19_TEXT) {
-      useCases.reasonable.push({
+      useCases.acceptable.push({
         label: 'Additional examples',
         text: QID19_TEXT,
       });
     }
 
     if (QID20_TEXT) {
-      useCases.unreasonable.push({
+      useCases.unacceptable.push({
         label: 'Additional examples',
         text: QID20_TEXT,
       });
@@ -76,10 +76,10 @@ const formatUseCases = ({
   return useCases;
 };
 
-export const surveyResponseMapper = ({
-  values,
-  labels,
-}: SurveyResponse): MappedSurveyResponse<UseCases> => {
+export const hgseSurveyResponseMapper = ({
+ values,
+ labels,
+}: SurveyResponse): MappedSurveyResponse<HgseUseCases> => {
   const {
     endDate,
     QID15,
@@ -94,7 +94,6 @@ export const surveyResponseMapper = ({
     QID4_4,
     QID4_1,
     QID4_2,
-    QID3_TEXT,
     QID12_1,
     QID12_2,
     QID12_3,
@@ -104,7 +103,7 @@ export const surveyResponseMapper = ({
 
   const ethicalGuidelines = additionalGuidelines
     ? QID25.slice(0, QID25.length - 1)
-    : undefined;
+    : undefined; // If QID25_6_TEXT exists, extract QID25
   const generativeAiToolDeclarations = QID26_DO
     ? QID26_DO.slice(0, QID26_DO.length - 1)
     : undefined;
@@ -121,7 +120,6 @@ export const surveyResponseMapper = ({
     courseTitle: QID4_4,
     instructor: QID4_1,
     email: QID4_2,
-    courseDescription: QID3_TEXT,
     overallPolicy: generativeAiPolicyMapper[QID15],
     additionalGuidelines,
     ethicalGuidelines,

@@ -4,11 +4,14 @@ import {
   AiPolicy,
   MappedSurveyResponse,
   PolicySection,
+  UseCases,
+  HgseUseCases,
 } from '../../../shared';
 
-const policyFormatter = (
+const policyFormatter = <T extends UseCases | HgseUseCases>(
   courseAiPolicy: PolicySections,
-  { courseTitle, courseNumber, email, instructor }: MappedSurveyResponse
+  { courseTitle, courseNumber, email, instructor }: MappedSurveyResponse<T>,
+  organization?: string
 ): AiPolicy => {
   return {
     heading: `
@@ -25,11 +28,14 @@ const policyFormatter = (
       .replace(/>(\s+)</g, '><')
       .trim(),
     sections: courseAiPolicy,
+    metadata: {
+      organization: organization || null
+    }
   };
 };
 
-export const createCoursePolicy = (
-  response: MappedSurveyResponse,
+export const createCoursePolicy = <T extends UseCases | HgseUseCases>(organization?: string) => (
+  response: MappedSurveyResponse<T>,
   test = false
 ): AiPolicy => {
   const courseDescriptionSubSections: PolicySection[] = [];
@@ -65,17 +71,18 @@ export const createCoursePolicy = (
   });
 
   if (response.useCases) {
-    generativeAiPolicySubSections.push({
-      id: test ? 'mockId' : ulid(),
-      title: 'Use Cases',
-      htmlContent: [
-        `<h3>Reasonable Use Cases ✅</h3>
+    if ('reasonable' in response.useCases) {
+      generativeAiPolicySubSections.push({
+        id: test ? 'mockId' : ulid(),
+        title: 'Use Cases',
+        htmlContent: [
+          `<h3>Reasonable Use Cases ✅</h3>
           ${
             response.useCases.reasonable.length
               ? `
             ${response.useCases.reasonable.reduce(
-              (acc, entry) =>
-                (acc += `
+                (acc, entry) =>
+                  (acc += `
                 <p><strong>${entry.label}</strong></p>
                 <ul>
                   <li>
@@ -84,22 +91,22 @@ export const createCoursePolicy = (
                   </li>
                 </ul>
               `),
-              ''
-            )}
+                ''
+              )}
           `
               : '<p>None</p>'
           }`
-          .replace(/\n/g, '')
-          .replace(/>(\s+)</g, '><')
-          .trim(),
-        `
+            .replace(/\n/g, '')
+            .replace(/>(\s+)</g, '><')
+            .trim(),
+          `
           <h3>Unreasonable Use Cases ❌</h3>
           ${
             response.useCases.unreasonable.length
               ? `
             ${response.useCases.unreasonable.reduce(
-              (acc, entry) =>
-                (acc += `
+                (acc, entry) =>
+                  (acc += `
                 <p><strong>${entry.label}</strong></p>
                 <ul>
                   <li>
@@ -107,16 +114,71 @@ export const createCoursePolicy = (
                   </li>
                 </ul>
               `),
-              ''
-            )}
+                ''
+              )}
           `
               : '<p>None</p>'
           }`
-          .replace(/\n/g, '')
-          .replace(/>(\s+)</g, '><')
-          .trim(),
-      ],
-    });
+            .replace(/\n/g, '')
+            .replace(/>(\s+)</g, '><')
+            .trim(),
+        ],
+      });
+
+    } else if ('acceptable' in response.useCases) {
+      generativeAiPolicySubSections.push({
+        id: test ? 'mockId' : ulid(),
+        title: 'Use Cases',
+        htmlContent: [
+          `<h3>Acceptable Use Cases ✅</h3>
+          ${
+            response.useCases.acceptable.length
+              ? `
+            ${response.useCases.acceptable.reduce(
+                (acc, entry) =>
+                  (acc += `
+                <p><strong>${entry.label}</strong></p>
+                <ul>
+                  <li>  
+                    <p>${entry.text}</p>
+                  </li>
+                </ul>
+              `),
+                ''
+              )}
+          `
+              : '<p>None</p>'
+          }`
+            .replace(/\n/g, '')
+            .replace(/>(\s+)</g, '><')
+            .trim(),
+          `
+          <h3>Unacceptable Use Cases ❌</h3>
+          ${
+            response.useCases.unacceptable.length
+              ? `
+            ${response.useCases.unacceptable.reduce(
+                (acc, entry) =>
+                  (acc += `
+                <p><strong>${entry.label}</strong></p>
+                <ul>
+                  <li>
+                    <p>${entry.text}</p>
+                  </li>
+                </ul>
+              `),
+                ''
+              )}
+          `
+              : '<p>None</p>'
+          }`
+            .replace(/\n/g, '')
+            .replace(/>(\s+)</g, '><')
+            .trim(),
+        ],
+      });
+
+    }
   }
 
   if (response.specificPoliciesForAssignments) {
@@ -294,6 +356,7 @@ export const createCoursePolicy = (
         children: additionalPoliciesSubSections,
       },
     ],
-    response
+    response,
+    organization
   );
 };
