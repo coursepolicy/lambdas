@@ -12,11 +12,12 @@ export type PolicySections = PolicySection[];
 export type AiPolicy = {
   heading: string; // Course information like title, number, instructor, etc.
   sections: PolicySections; // Policy sections taken from qualtrics survey
-  metadata: {
+  metadata?: {
     organization: string | null;
   };
 };
 
+// TODO - unused
 export type AiPolicyResponse = AiPolicy & {
   id: string | number; // Generated ULID
   updatedAt?: string;
