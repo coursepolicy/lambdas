@@ -12,6 +12,7 @@ custom:
   ssm:
     QUALTRICS_API_TOKEN: ${ssm:qualtrics-api-token}
     SURVEY_ID: ${ssm:survey-id}
+    HGSE_SURVEY_ID: ${ssm:hgse-survey-id}
     DATABASE_URL: ${ssm:db-url}
     CORE_BASE_URL: ${ssm:core-base-url}
     DATABASE_PASSWORD: ${ssm:survey-db-password}
