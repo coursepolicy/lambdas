@@ -1,11 +1,12 @@
 import 'dotenv/config';
 import { ExtendedApiGateWayEvent } from './utils/types';
-import { db } from '../../../data/knex';
+import { db } from '../../../data';
 
-// TODO - make this similar to update policy handler
-export const getPolicyHandler = async ({
-  queryStringParameters: { publishId },
-}: ExtendedApiGateWayEvent) => {
+export const getPolicyHandler = async (event: ExtendedApiGateWayEvent) => {
+  console.info('getPolicyHandler Event', JSON.stringify(event, null, 2));
+  const {
+    queryStringParameters: { publishId },
+  } = event;
   try {
     const aiPolicy = await db('publish_policies')
       .where({ id: publishId })

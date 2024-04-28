@@ -1,14 +1,17 @@
 import 'dotenv/config';
 
 import { QaultricsResponse, qualtricsBaseUrl } from '../../../shared';
+import {surveyIdMapper} from "../utils/helpers";
 
-const { SURVEY_ID, QUALTRICS_API_TOKEN } = process.env;
+const { QUALTRICS_API_TOKEN } = process.env;
 
 export const getFullResponseData = async (
-  id: string
+  id: string,
+  institution: string
 ): Promise<QaultricsResponse> => {
+  const surveyId = surveyIdMapper(institution);
   const response = await fetch(
-    `${qualtricsBaseUrl}/surveys/${process.env.SURVEY_ID}/responses/${id}`,
+    `${qualtricsBaseUrl}/surveys/${surveyId}/responses/${id}`,
     {
       method: 'get',
       headers: {
@@ -22,7 +25,7 @@ export const getFullResponseData = async (
     const errorMessage = await response.text();
     console.error({
       message: `Qualtrics API call failed: ${errorMessage}`,
-      surveyId: SURVEY_ID,
+      surveyId,
       QUALTRICS_API_TOKEN: QUALTRICS_API_TOKEN?.length,
       responseId: id,
     });
