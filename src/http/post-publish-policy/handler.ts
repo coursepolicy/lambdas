@@ -3,7 +3,7 @@ import { ExtendedApiGateWayEvent } from './utils/types';
 import { db } from '../../../data';
 
 export const postPublishPolicyHandler = async (event: ExtendedApiGateWayEvent) => {
-  console.info('postPublishPolicyHandler Event', { event });
+  console.info('postPublishPolicyHandler Event', JSON.stringify(event, null, 2));
 
   const {
     parsedBody: { publishId, policyId, policy },

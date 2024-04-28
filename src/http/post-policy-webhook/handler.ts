@@ -11,7 +11,7 @@ import { SurveyResponse } from "../../shared";
 
 export const postPolicyWebhookHandler = async (event: ExtendedApiGateWayEvent) => {
   try {
-    console.info('postPolicyWebhookHandler Event', { event });
+    console.info('postPolicyWebhookHandler Event', JSON.stringify(event, null, 2));
 
     const {
       parsedBody: { responseId: surveyResponseId, organization: institution },

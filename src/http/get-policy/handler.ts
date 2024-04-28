@@ -4,7 +4,7 @@ import { ExtendedApiGateWayEvent } from './utils/types';
 
 // TODO - make this similar to update policy handler
 export const getPolicyHandler = async (event: ExtendedApiGateWayEvent) => {
-  console.info('getPolicyHandler Event', { event });
+  console.info('getPolicyHandler Event', JSON.stringify(event, null, 2));
   const {
     queryStringParameters: { generatedId },
   } = event;

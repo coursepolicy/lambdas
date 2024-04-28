@@ -3,7 +3,7 @@ import { ExtendedApiGateWayEvent } from './utils/types';
 import { db } from '../../../data';
 
 export const getPolicyHandler = async (event: ExtendedApiGateWayEvent) => {
-  console.info('getPolicyHandler Event', { event });
+  console.info('getPolicyHandler Event', JSON.stringify(event, null, 2));
   const {
     queryStringParameters: { publishId },
   } = event;
