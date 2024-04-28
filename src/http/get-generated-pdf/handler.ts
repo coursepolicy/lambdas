@@ -2,9 +2,11 @@ import 'dotenv/config';
 import { generatePdf } from './services';
 import { ExtendedApiGateWayEvent } from './utils';
 
-export const getGeneratedPdf = async ({
-  queryStringParameters: { generatedId },
-}: ExtendedApiGateWayEvent) => {
+export const getGeneratedPdf = async (event: ExtendedApiGateWayEvent) => {
+  console.info('getGeneratedPdf Event', { event });
+  const {
+    queryStringParameters: { generatedId },
+  } = event;
   try {
     const pdf = await generatePdf(generatedId);
 

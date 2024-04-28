@@ -8,18 +8,14 @@ import { saveCoursePolicy } from './services/save-course-policy';
 import { getFullResponseData } from './services/get-full-response-data';
 import { hgseSurveyResponseMapper } from "./services/hgse-survey-response-mapper";
 import { SurveyResponse } from "../../shared";
-import {surveyIdMapper} from "./utils/helpers";
 
-export const postPolicyWebhookHandler = async ({
-  parsedBody: { responseId: surveyResponseId, organization: institution },
-}: ExtendedApiGateWayEvent) => {
+export const postPolicyWebhookHandler = async (event: ExtendedApiGateWayEvent) => {
   try {
-    console.info({
-      message: 'Qualtrics Webhook',
-      surveyId: surveyIdMapper(institution || ''),
-      responseId: surveyResponseId,
-      institution: institution || ''
-    });
+    console.info('postPolicyWebhookHandler Event', { event });
+
+    const {
+      parsedBody: { responseId: surveyResponseId, organization: institution },
+    } = event;
 
     const data = await getFullResponseData(surveyResponseId, institution || '');
 

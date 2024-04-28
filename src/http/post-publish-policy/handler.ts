@@ -1,10 +1,13 @@
 import 'dotenv/config';
 import { ExtendedApiGateWayEvent } from './utils/types';
-import { db } from '../../../data/knex';
+import { db } from '../../../data';
 
-export const postPublishPolicyHandler = async ({
-  parsedBody: { publishId, policyId, policy },
-}: ExtendedApiGateWayEvent) => {
+export const postPublishPolicyHandler = async (event: ExtendedApiGateWayEvent) => {
+  console.info('postPublishPolicyHandler Event', { event });
+
+  const {
+    parsedBody: { publishId, policyId, policy },
+  } = event;
   try {
     const exists = await db('publish_policies')
       .where({ id: publishId })
