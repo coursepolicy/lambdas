@@ -8,20 +8,20 @@ import { saveCoursePolicy } from './services/save-course-policy';
 import { getFullResponseData } from './services/get-full-response-data';
 import { hgseSurveyResponseMapper } from "./services/hgse-survey-response-mapper";
 import { SurveyResponse } from "../../shared";
-
-const { SURVEY_ID } = process.env;
+import {surveyIdMapper} from "./utils/helpers";
 
 export const postPolicyWebhookHandler = async ({
-  parsedBody: { responseId: surveyResponseId, organization },
+  parsedBody: { responseId: surveyResponseId, organization: institution },
 }: ExtendedApiGateWayEvent) => {
   try {
     console.info({
       message: 'Qualtrics Webhook',
-      surveyId: SURVEY_ID,
+      surveyId: surveyIdMapper(institution || ''),
       responseId: surveyResponseId,
+      institution: institution || ''
     });
 
-    const data = await getFullResponseData(surveyResponseId);
+    const data = await getFullResponseData(surveyResponseId, institution || '');
 
     const mapper = (organization?: string) => (response: SurveyResponse) =>  {
       if (organization === 'harvard') {
@@ -31,8 +31,8 @@ export const postPolicyWebhookHandler = async ({
     }
 
     const savedPolicyId = flow(
-      mapper(organization),
-      createCoursePolicy(organization),
+      mapper(institution),
+      createCoursePolicy(institution),
       await saveCoursePolicy(data)
     )(data.result);
 
