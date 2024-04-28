@@ -1,5 +1,6 @@
 export const QUALTRICS_API_TOKEN = 'apiToken';
 export const SURVEY_ID = 'surveyId';
+export const HGSE_SURVEY_ID = 'hgseSurveyId';
 export const CORE_BASE_URL = 'https://coursepolicy.ai';
 export const DATABASE_PASSWORD = 'password';
 export const DATABASE_USERNAME = 'postgres';
