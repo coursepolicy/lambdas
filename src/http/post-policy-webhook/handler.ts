@@ -8,10 +8,13 @@ import { saveCoursePolicy } from './services/save-course-policy';
 import { getFullResponseData } from './services/get-full-response-data';
 import { hgseSurveyResponseMapper } from "./services/hgse-survey-response-mapper";
 import { SurveyResponse } from "../../shared";
+import {surveyIdMapper} from "./utils/helpers";
 
 export const postPolicyWebhookHandler = async (event: ExtendedApiGateWayEvent) => {
   try {
-    console.info('postPolicyWebhookHandler Event', JSON.stringify(event, null, 2));
+    console.info('postPolicyWebhookHandler Event', JSON.stringify(
+      { ...event, surveyId: surveyIdMapper(event.parsedBody.organization || '')}, null, 2)
+    );
 
     const {
       parsedBody: { responseId: surveyResponseId, organization: institution },
