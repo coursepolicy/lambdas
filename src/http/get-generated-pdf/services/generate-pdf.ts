@@ -13,17 +13,23 @@ export const generatePdf = async (generatedId: string) => {
     );
 
     chromium.setGraphicsMode = false;
+    console.debug('helllooooo__start_______________________');
+
     browser = await puppeteer.launch({
       args: [...chromium.args, '--disable-features=site-per-process'],
       defaultViewport: null,
       executablePath: await chromium.executablePath(),
       headless: chromium.headless,
     });
+    console.debug('helllooooo_________________________1');
 
     const page = await browser.newPage();
+    console.debug('helllooooo_________________________2');
+
     await page.goto(`${baseUrl}/preview/${generatedId}`, {
       waitUntil: 'networkidle2',
     });
+    console.debug('helllooooo________________________3');
 
     result = await page.pdf({
       printBackground: true,
@@ -46,6 +52,8 @@ export const generatePdf = async (generatedId: string) => {
         bottom: '15mm',
       },
     });
+
+    console.debug('helllooooo_________________________final');
 
     console.info(
       'Before close **********************',
