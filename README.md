@@ -26,7 +26,7 @@ Make sure you have aws cli installed and have been authenticated using: `https:/
 
 ```bash
 git clone <this repo>
-cd lambdas
+cd services
 yarn install
 yarn offline
 

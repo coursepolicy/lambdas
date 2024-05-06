@@ -14,7 +14,7 @@ export const generatePdf = async (generatedId: string) => {
 
     chromium.setGraphicsMode = false;
     browser = await puppeteer.launch({
-      args: chromium.args,
+      args: [...chromium.args, '--disable-features=site-per-process'],
       defaultViewport: null,
       executablePath: await chromium.executablePath(),
       headless: chromium.headless,
