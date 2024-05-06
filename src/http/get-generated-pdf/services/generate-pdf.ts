@@ -27,7 +27,7 @@ export const generatePdf = async (generatedId: string) => {
     console.debug('helllooooo_________________________2');
 
     await page.goto(`${baseUrl}/preview/${generatedId}`, {
-      waitUntil: 'networkidle2',
+      waitUntil: 'load',
     });
     console.debug('helllooooo________________________3');
 
