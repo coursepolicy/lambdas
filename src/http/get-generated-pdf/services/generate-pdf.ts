@@ -1,4 +1,4 @@
-import {  default as puppeteerCore } from 'puppeteer-core';
+import { Browser, default as puppeteerCore } from 'puppeteer-core';
 import chromium from '@sparticuz/chromium';
 
 const getBrowser = async () => {
@@ -6,12 +6,12 @@ const getBrowser = async () => {
   return puppeteerCore.launch({
     args: chromium.args,
     defaultViewport: chromium.defaultViewport,
-    executablePath: process.env.IS_LOCAL ? await chromium.executablePath() : '/Applications/Chromium.app/Contents/MacOS/Chromium',
+    executablePath: process.env.IS_LOCAL ? '/Applications/Chromium.app/Contents/MacOS/Chromium' : await chromium.executablePath(),
     headless: chromium.headless,
   })
 }
 
-export const generatePdf = async (browser: any, generatedId: string) => {
+export const generatePdf = async (browser: Browser, generatedId: string) => {
   try {
     const baseUrl = process.env.CORE_BASE_URL;
 
