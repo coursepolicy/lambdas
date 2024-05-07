@@ -20,10 +20,15 @@ export const generatePdf = async (generatedId: string) => {
       headless: chromium.headless,
     });
 
+    console.info('Browser **********************', browser.connected);
     const page = await browser.newPage();
+
+    console.info('Page **********************', page.url());
     await page.goto(`${baseUrl}/preview/${generatedId}`, {
       waitUntil: 'networkidle2',
     });
+
+    console.info('After page **********************', page.url());
 
     result = await page.pdf({
       printBackground: true,
@@ -46,6 +51,8 @@ export const generatePdf = async (generatedId: string) => {
         bottom: '15mm',
       },
     });
+
+    console.info('After pdf **********************', result);
 
     console.info(
       'Before close **********************',
