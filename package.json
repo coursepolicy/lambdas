@@ -25,7 +25,7 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@sparticuz/chromium": "116",
+    "@sparticuz/chromium": "^123.0.1",
     "@types/aws-lambda": "^8.10.119",
     "@types/jest": "^29.5.4",
     "@types/lodash": "^4.14.198",
@@ -61,7 +61,7 @@
     "lodash": "^4.17.21",
     "mock-knex": "^0.4.12",
     "pg": "^8.11.2",
-    "puppeteer-core": "21.1.0",
+    "puppeteer-core": "22.6.4",
     "ulid": "^2.3.0",
     "uuid": "^9.0.0",
     "zod": "^3.21.4"

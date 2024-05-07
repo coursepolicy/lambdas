@@ -65,7 +65,7 @@ functions:
     timeout: 180
     memorySize: 2048
     layers:
-      - arn:aws:lambda:us-west-2:${ternary( ${self:custom.stage}, production, 208733872559, 694509587593)}:layer:chromium:${ternary( ${self:custom.stage}, production, 1, 3)}
+      - arn:aws:lambda:us-west-2:${ternary( ${self:custom.stage}, production, 208733872559, 694509587593)}:layer:chromium:${ternary( ${self:custom.stage}, production, 1, 4)}
   getPublishPolicy:
     handler: dist/src/http/get-publish-policy/index.handler
     events:

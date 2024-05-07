@@ -31,13 +31,13 @@ export const generatePdf = async (generatedId: string) => {
       format: 'letter',
       displayHeaderFooter: true,
       footerTemplate: `
-            <div style="font-size:10px; margin: 0 auto; padding: 0; text-align: center; width: 100%;">
-                <p>created using 
+            <footer style="font-size:10px; margin: 0 auto; padding: 0; text-align: center; width: 100%;">
+                <span>created using 
                     <a href="https://coursepolicy.ai" target="_blank" rel="noopener noreferrer nofollow">
                         CoursePolicy.AI
                     </a>
-                </p>
-            </div>
+                </span>
+            </footer>
         `,
       scale: 0.85,
       width: 'letter',
