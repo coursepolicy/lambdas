@@ -1,24 +1,23 @@
-import puppeteer from 'puppeteer-core';
+import {  default as puppeteerCore } from 'puppeteer-core';
 import chromium from '@sparticuz/chromium';
 
-export const generatePdf = async (generatedId: string) => {
-  let browser = null;
-  let result = null;
+const getBrowser = async () => {
+  chromium.setGraphicsMode = false;
+  return puppeteerCore.launch({
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
+    executablePath: process.env.IS_LOCAL ? await chromium.executablePath() : '/Applications/Chromium.app/Contents/MacOS/Chromium',
+    headless: chromium.headless,
+  })
+}
 
+export const generatePdf = async (browser: any, generatedId: string) => {
   try {
     const baseUrl = process.env.CORE_BASE_URL;
 
     await chromium.font(
       'https://github.com/googlefonts/noto-emoji/raw/main/fonts/NotoColorEmoji.ttf'
     );
-
-    chromium.setGraphicsMode = false;
-    browser = await puppeteer.launch({
-      args: chromium.args,
-      defaultViewport: null,
-      executablePath: await chromium.executablePath(),
-      headless: chromium.headless,
-    });
 
     console.info('Browser **********************', browser.connected);
     const page = await browser.newPage();
@@ -30,7 +29,7 @@ export const generatePdf = async (generatedId: string) => {
 
     console.info('After page **********************', page.url());
 
-    result = await page.pdf({
+    const result = await page.pdf({
       printBackground: true,
       preferCSSPageSize: true,
       format: 'letter',
@@ -58,23 +57,31 @@ export const generatePdf = async (generatedId: string) => {
       'Before close **********************',
       JSON.stringify({
         pageInfo: {
-          url: await page.url(),
-          viewport: await page.viewport(),
+          url: page.url(),
+          viewport: page.viewport(),
         },
         browserInfo: {
           version: await browser.version(),
-          isConnected: browser.isConnected(),
+          isConnected: browser.connected,
         },
       })
     );
+
+    await page.close()
+
+    return result;
   } catch (error) {
     console.error(error);
     throw new Error(JSON.stringify(error));
-  } finally {
-    if (browser !== null) {
-      await browser.close();
-    }
   }
+};
+
+export const main = async (generatedId: string) => {
+  const browser = await getBrowser();
+  console.info('Generating PDFs')
+
+  const result = await generatePdf(browser, generatedId);
+  await browser.close();
 
   return result;
-};
+}
