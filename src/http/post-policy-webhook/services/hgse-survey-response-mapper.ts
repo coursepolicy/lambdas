@@ -136,9 +136,9 @@ export const hgseSurveyResponseMapper = ({
   if (generativeAiPolicyMapper[QID15] === 'No restrictions') {
     return {
       ...base,
-      overallPolicyText: `This course imposes no restrictions on the use of generative AI, recognizing each student's unique learning methods. This flexibility empowers you to tailor your educational journey to your needs. However, while exploring these technological options, adherence to the department or school's academic integrity policies is essential. This ensures that while maximizing your learning potential, you also uphold our community's high standards of academic ethics.`,
+      overallPolicyText: 'This course encourages students to explore the use of generative artificial intelligence (GAI) tools such as ChatGPT for all assignments and assessments. Any such use must be appropriately acknowledged and cited. It is each student’s responsibility to assess the validity and applicability of any GAI output that is submitted; you bear the final responsibility. Violations of this policy will be considered academic misconduct.',
       additionalPolicyText:
-        "This policy document aims to provide clarity and transparency for the use of generative AI in our course. However, it's paramount to remember that students are also expected to adhere to all other policies specified in the course syllabus and those established by the school administration.",
+        'This policy document aims to provide clarity and transparency for the use of generative AI in our course. However, it\'s paramount to remember that students are also expected to adhere to all other policies specified in the course syllabus and those established by the school administration.',
     };
   }
   if (generativeAiPolicyMapper[QID15] === 'Allowed under conditions') {
@@ -148,9 +148,9 @@ export const hgseSurveyResponseMapper = ({
       departmentWidePolicy: QID12_2,
       academicIntegrityPolicy: QID12_3,
       otherPolicies: QID12_4,
-      overallPolicyText: `We recognize the potential benefits of incorporating generative AI in the learning process. As such, we embrace the use of generative AI tools by our students. In this policy, we employ a "reasonable/not reasonable" system rather than a strict "allowed/not allowed" one (inspired by CS50 at Harvard). This approach fosters proactive thinking among students by encouraging them to understand context, evaluate implications, and make thoughtful decisions. `,
+      overallPolicyText: 'In this course, the use of generative artificial intelligence (AI) tools such as ChatGPT is allowed under specific conditions. Students must follow the provided list of acceptable and not acceptable use cases. Any use of AI tools must be acknowledged and cited. Failure to comply with these conditions will be considered academic misconduct.',
       additionalPolicyText:
-        "This policy document is designed to clarify and transparently outline the use of generative AI in our course. It is crucial for students to also comply with all additional university-wide and school-wide policies listed below.",
+        'This policy document is designed to clarify and transparently outline the use of generative AI in our course. It is crucial for students to also comply with all additional university-wide and school-wide policies listed below.',
     };
   }
   if (generativeAiPolicyMapper[QID15] === 'Strictly prohibited') {
@@ -158,9 +158,9 @@ export const hgseSurveyResponseMapper = ({
       ...base,
       campusWidePolicy: QID12_1,
       academicIntegrityPolicy: QID12_3,
-      overallPolicyText: `The use of generative AI is strictly prohibited in this course to optimize students' learning outcomes. This policy is instituted to inspire comprehensive engagement with the course content and foster a deep understanding of the subject matter. It provides an avenue for students to articulate their ideas, form personal connections with the material, and bolster their academic development.`,
+      overallPolicyText: 'We expect that all work students submit for this course will be their own. In instances when collaborative work is assigned, we expect for the assignment to list all team members who participated. We specifically forbid the use of ChatGPT or any other generative artificial intelligence (AI) tools at all stages of the work process, including preliminary ones. Violations of this policy will be considered academic misconduct. We draw your attention to the fact that different classes at Harvard could implement different AI policies, and it is the student’s responsibility to conform to expectations for each course.',
       additionalPolicyText:
-        "This policy document aims to provide clarity and transparency for the use of generative AI in our course. However, it's paramount to remember that students are also expected to adhere to all other policies specified in the course syllabus and those established by the school administration. The following represents a non-exhaustive list of institution-wide policies which all students must observe, some of which may touch on the use of generative AI. These policies are subject to modification at any point in time. It's incumbent upon the students to keep themselves updated and well-informed about these policies. ",
+        'This policy document aims to provide clarity and transparency for the use of generative AI in our course. However, it\'s paramount to remember that students are also expected to adhere to all other policies specified in the course syllabus and those established by the school administration. The following represents a non-exhaustive list of institution-wide policies which all students must observe, some of which may touch on the use of generative AI. These policies are subject to modification at any point in time. It\'s incumbent upon the students to keep themselves updated and well-informed about these policies.',
     };
   }
   throw new Error('Invalid policy');
