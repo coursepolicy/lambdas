@@ -68,7 +68,7 @@ exports[`HGSE createCoursePolicy should return consistent HGSE output 1`] = `
           "title": "Introduction",
         },
         {
-          "htmlContent": "<ul><li><p><a target="_blank" rel="noopener noreferrer nofollow" class="editor-links" href="https://example.com/campus-wide-policy">Campus-wide generative AI policy</a></p></li><li><p><a target="_blank" rel="noopener noreferrer nofollow" class="editor-links" href="https://example.com/department-wide-policy">Department-wide generative AI policy</a></p></li><li><p><a target="_blank" rel="noopener noreferrer nofollow" class="editor-links" href="https://example.com/academic-integrity-policy">Academic Integrity policy</a></p></li><li><p><a target="_blank" rel="noopener noreferrer nofollow" class="editor-links" href="https://example.com/other-policies">Other policies</a></p></li></ul>",
+          "htmlContent": "<ul><li><p><a target="_blank" rel="noopener noreferrer nofollow" class="editor-links" href="https://example.com/campus-wide-policy">University-wide generative AI policy</a></p></li><li><p><a target="_blank" rel="noopener noreferrer nofollow" class="editor-links" href="https://example.com/department-wide-policy">School-wide generative AI policy</a></p></li><li><p><a target="_blank" rel="noopener noreferrer nofollow" class="editor-links" href="https://example.com/academic-integrity-policy">Academic Integrity policy</a></p></li><li><p><a target="_blank" rel="noopener noreferrer nofollow" class="editor-links" href="https://example.com/other-policies">Other policies</a></p></li></ul>",
           "id": "mockId",
           "title": "Policy Links",
         },

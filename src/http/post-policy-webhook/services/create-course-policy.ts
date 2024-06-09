@@ -297,7 +297,7 @@ export const createCoursePolicy = <T extends UseCases | HgseUseCases>(organizati
                 <li>
                 ${
                   response.campusWidePolicy.length
-                    ? `<p><a target="_blank" rel="noopener noreferrer nofollow" class="editor-links" href="${response.campusWidePolicy}">Campus-wide generative AI policy</a></p>`
+                    ? `<p><a target="_blank" rel="noopener noreferrer nofollow" class="editor-links" href="${response.campusWidePolicy}">${organization === 'harvard' ? 'University-wide' : 'Campus-wide'} generative AI policy</a></p>`
                     : 'Campus-wide generative AI policy: N/A'
                 }
                 </li>
@@ -310,7 +310,7 @@ export const createCoursePolicy = <T extends UseCases | HgseUseCases>(organizati
                 <li>
                 ${
                   response.departmentWidePolicy.length
-                    ? `<p><a target="_blank" rel="noopener noreferrer nofollow" class="editor-links" href="${response.departmentWidePolicy}">Department-wide generative AI policy</a></p>`
+                    ? `<p><a target="_blank" rel="noopener noreferrer nofollow" class="editor-links" href="${response.departmentWidePolicy}">${organization === 'harvard' ? 'School-wide' : 'Department-wide'} generative AI policy</a></p>`
                     : 'Department-wide generative AI policy: N/A'
                 }
                 </li>

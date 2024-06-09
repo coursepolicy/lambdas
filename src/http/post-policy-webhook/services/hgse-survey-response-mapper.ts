@@ -150,7 +150,7 @@ export const hgseSurveyResponseMapper = ({
       otherPolicies: QID12_4,
       overallPolicyText: `We recognize the potential benefits of incorporating generative AI in the learning process. As such, we embrace the use of generative AI tools by our students. In this policy, we employ a "reasonable/not reasonable" system rather than a strict "allowed/not allowed" one (inspired by CS50 at Harvard). This approach fosters proactive thinking among students by encouraging them to understand context, evaluate implications, and make thoughtful decisions. `,
       additionalPolicyText:
-        "This policy document aims to provide clarity and transparency for the use of generative AI in our course. However, it's paramount to remember that students are also expected to adhere to all other policies specified in the course syllabus and those established by the school administration. The following represents a non-exhaustive list of institution-wide policies which all students must observe, some of which may touch on the use of generative AI. These policies are subject to modification at any point in time. It's incumbent upon the students to keep themselves updated and well-informed about these policies.",
+        "This policy document is designed to clarify and transparently outline the use of generative AI in our course. It is crucial for students to also comply with all additional university-wide and school-wide policies listed below.",
     };
   }
   if (generativeAiPolicyMapper[QID15] === 'Strictly prohibited') {
