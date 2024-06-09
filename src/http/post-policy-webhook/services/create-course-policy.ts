@@ -59,7 +59,8 @@ export const createCoursePolicy = <T extends UseCases | HgseUseCases>(organizati
 
     if (courseDescriptionSubSections.length) {
       courseAiPolicy.push({
-        id: test ? 'mockId' : ulid(),
+        id: test ? 'mockId' : 'hello lol',
+        // id: test ? 'mockId' : ulid(),
         title: 'Course Description',
         children: courseDescriptionSubSections,
       })
