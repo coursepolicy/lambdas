@@ -38,24 +38,36 @@ export const createCoursePolicy = <T extends UseCases | HgseUseCases>(organizati
   response: MappedSurveyResponse<T>,
   test = false
 ): AiPolicy => {
+  const courseAiPolicy: PolicySection[] = [];
   const courseDescriptionSubSections: PolicySection[] = [];
   const generativeAiPolicySubSections: PolicySection[] = [];
   const additionalPoliciesSubSections: PolicySection[] = [];
 
   // courseDescriptionSubSections
-  courseDescriptionSubSections.push({
-    id: test ? 'mockId' : ulid(),
-    title: 'Introduction',
-    htmlContent: `
-        <h3>Course Description</h3>
-        <p>${response.courseDescription}</p>
-      `
-      .replace(/\n/g, '')
-      .replace(/>(\s+)</g, '><')
-      .trim(),
-  });
-  // end of courseDescriptionSubSections
+  if (response.courseDescription) {
+    courseDescriptionSubSections.push({
+      id: test ? 'mockId' : ulid(),
+      title: 'Introduction',
+      htmlContent: `
+          <h3>Course Description</h3>
+          <p>${response.courseDescription}</p>
+        `
+        .replace(/\n/g, '')
+        .replace(/>(\s+)</g, '><')
+        .trim(),
+    });
 
+    if (courseDescriptionSubSections.length) {
+      courseAiPolicy.push({
+        id: test ? 'mockId' : ulid(),
+        // id: test ? 'mockId' : ulid(),
+        title: 'Course Description',
+        children: courseDescriptionSubSections,
+      })
+    }
+
+    // end of courseDescriptionSubSections
+  }
   // generativeAiPolicySubSections
 
   generativeAiPolicySubSections.push({
@@ -239,24 +251,26 @@ export const createCoursePolicy = <T extends UseCases | HgseUseCases>(organizati
     });
   }
 
-  generativeAiPolicySubSections.push({
-    id: test ? 'mockId' : ulid(),
-    title: 'Additional Notes',
-    htmlContent: `
-        <h3>Additional Notes</h3>
-        ${
-          response.additionalNotes
-            ? `
-        <ul>
-          <li>${response.additionalNotes}</li>
-        </ul>
-        `
-            : ''
-        }`
-      .replace(/\n/g, '')
-      .replace(/>(\s+)</g, '><')
-      .trim(),
-  });
+  if (response.additionalNotes) {
+    generativeAiPolicySubSections.push({
+      id: test ? 'mockId' : ulid(),
+      title: 'Additional Notes',
+      htmlContent: `
+          <h3>Additional Notes</h3>
+          ${
+            response.additionalNotes
+              ? `
+          <ul>
+            <li>${response.additionalNotes}</li>
+          </ul>
+          `
+              : ''
+          }`
+        .replace(/\n/g, '')
+        .replace(/>(\s+)</g, '><')
+        .trim(),
+    });
+  }
 
   // end of generativeAiPolicySubSections
 
@@ -339,12 +353,7 @@ export const createCoursePolicy = <T extends UseCases | HgseUseCases>(organizati
 
   return policyFormatter(
     [
-      {
-        // section
-        id: test ? 'mockId' : ulid(),
-        title: 'Course Description',
-        children: courseDescriptionSubSections,
-      },
+      ...courseAiPolicy,
       {
         id: test ? 'mockId' : ulid(),
         title: 'Generative AI Policy',

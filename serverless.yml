@@ -20,6 +20,9 @@ custom:
     DATABASE_NAME: ${ssm:survey-db-name}
     DATABASE_HOST: ${ssm:survey-db-host}
     DATABASE_PORT: ${ssm:survey-db-port}
+  chromiumLayerVersion:
+    production: 1
+    staging: 5
 
 provider:
   name: aws
@@ -65,7 +68,7 @@ functions:
     timeout: 180
     memorySize: 2048
     layers:
-      - arn:aws:lambda:us-west-2:${ternary( ${self:custom.stage}, production, 208733872559, 694509587593)}:layer:chromium:${ternary( ${self:custom.stage}, production, 1, 3)}
+      - arn:aws:lambda:us-west-2:${ternary( ${self:custom.stage}, production, 208733872559, 694509587593)}:layer:chromium:${ternary( ${self:custom.stage}, production, ${self:custom.chromiumLayerVersion.production}, ${self:custom.chromiumLayerVersion.staging})}
   getPublishPolicy:
     handler: dist/src/http/get-publish-policy/index.handler
     events:
