@@ -251,24 +251,26 @@ export const createCoursePolicy = <T extends UseCases | HgseUseCases>(organizati
     });
   }
 
-  generativeAiPolicySubSections.push({
-    id: test ? 'mockId' : ulid(),
-    title: 'Additional Notes',
-    htmlContent: `
-        <h3>Additional Notes</h3>
-        ${
-          response.additionalNotes
-            ? `
-        <ul>
-          <li>${response.additionalNotes}</li>
-        </ul>
-        `
-            : ''
-        }`
-      .replace(/\n/g, '')
-      .replace(/>(\s+)</g, '><')
-      .trim(),
-  });
+  if (response.additionalNotes) {
+    generativeAiPolicySubSections.push({
+      id: test ? 'mockId' : ulid(),
+      title: 'Additional Notes',
+      htmlContent: `
+          <h3>Additional Notes</h3>
+          ${
+            response.additionalNotes
+              ? `
+          <ul>
+            <li>${response.additionalNotes}</li>
+          </ul>
+          `
+              : ''
+          }`
+        .replace(/\n/g, '')
+        .replace(/>(\s+)</g, '><')
+        .trim(),
+    });
+  }
 
   // end of generativeAiPolicySubSections
 
