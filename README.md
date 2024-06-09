@@ -28,6 +28,7 @@ Make sure you have aws cli installed and have been authenticated using: `https:/
 git clone <this repo>
 cd lambdas
 yarn install
+aws sso login
 yarn offline
 
 ```
