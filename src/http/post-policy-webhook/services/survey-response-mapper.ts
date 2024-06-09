@@ -102,9 +102,8 @@ export const surveyResponseMapper = ({
   } = values;
   const { QID16_DO, QID26_DO, QID25 } = labels;
 
-  const ethicalGuidelines = additionalGuidelines
-    ? QID25.slice(0, QID25.length - 1)
-    : undefined;
+  const ethicalGuidelines = QID25.slice(0, QID25.length - 1);
+
   const generativeAiToolDeclarations = QID26_DO
     ? QID26_DO.slice(0, QID26_DO.length - 1)
     : undefined;
